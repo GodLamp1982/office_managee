@@ -10,6 +10,17 @@
 <html>
 <head>
     <title>用户</title>
+    <style type="text/css">
+        ul{
+            display: block;
+            text-align: center;
+            list-style: none;
+        }
+        li{
+            float: left;
+            margin-left: 20px;
+        }
+    </style>
 </head>
 <body>
     <%
@@ -41,6 +52,20 @@
                 </td>
             </tr>
         </c:forEach>
+        <tr>
+            <td colspan="6">
+                <ul>
+                    <li><a href="user?action=allUser&currentPage=1">首页</a></li>
+                    <li><a href="user?action=allUser&currentPage=${requestScope.preIndex}">上一页</a></li>
+                    <c:forEach begin="1" end="${requestScope.allCount}" var="i">
+                        <li><a href="user?action=allUser&currentPage=${i}">${i}</a></li>
+                    </c:forEach>
+                    <li><a href="user?action=allUser&currentPage=${requestScope.nextIndex}">下一页</a></li>
+                    <li><a href="user?action=allUser&currentPage=${requestScope.allCount}">末页</a></li>
+                </ul>
+            </td>
+        </tr>
     </table>
+
 </body>
 </html>

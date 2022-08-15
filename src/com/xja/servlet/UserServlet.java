@@ -1,6 +1,7 @@
 package com.xja.servlet;
 
 import com.xja.bean.User;
+import com.xja.common.Page;
 import com.xja.common.StateCode;
 import com.xja.service.impl.UserServiceImpl;
 import com.xja.util.MD5Util;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author GodLamp
@@ -176,7 +179,28 @@ public class UserServlet extends HttpServlet {
      * @param response
      */
     private void findAllUser(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("allUser",userService.findAllUser());
+        List<User> allUser = userService.findAllUser();
+        String currentPage = request.getParameter("currentPage");
+
+        int pageIndex = (currentPage == null ? 1 : Integer.parseInt(currentPage));
+        //分页
+        //总页数
+        int countAll = (int) Math.ceil( (allUser.size() ) *1.0 / Page.PAGE_NUMBER);
+        request.setAttribute("allCount",countAll);
+        //上一页
+        request.setAttribute("preIndex",pageIndex > 1 ? (pageIndex - 1) : 1);
+        //下一页
+        request.setAttribute("nextIndex",pageIndex < countAll ? (pageIndex + 1) : countAll);
+
+        List<User> userList = new ArrayList<>();
+        for (int i = ( (pageIndex - 1) * Page.PAGE_NUMBER ),j=0; j < 4; j++,i++ ){
+            if (i >= allUser.size()){
+                break;
+            }
+            userList.add(allUser.get(i));
+        }
+
+        request.setAttribute("allUser",userList);
         try {
             request.getRequestDispatcher("view/usershow.jsp").forward(request,response);
         } catch (ServletException e) {

@@ -394,8 +394,6 @@ public class DishServlet extends HttpServlet {
         //总页数
         int countAll = (int) Math.ceil((dishService.countAll()) *1.0 / Page.PAGE_NUMBER);
         request.setAttribute("allCount",countAll);
-        //当前页数索引
-        request.setAttribute("currentIndex",pageIndex);
         //上一页
         request.setAttribute("preIndex",pageIndex > 1 ? (pageIndex - 1) : 1);
         //下一页
