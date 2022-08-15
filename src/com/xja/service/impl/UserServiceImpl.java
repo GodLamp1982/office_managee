@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int update(User user){
-        user.setPassword(MD5Util.getMd5Str(user.getPassword()));
+
         try {
             return userDao.update(user);
         } catch (SQLException e) {

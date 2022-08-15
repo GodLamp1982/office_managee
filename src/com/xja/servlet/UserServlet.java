@@ -233,15 +233,21 @@ public class UserServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("currentUser");
         String userId= request.getParameter("userId");
         String power = request.getParameter("power");
+        String pwd = request.getParameter("pwd");
 
-        if (user == null || userId == null){
+        if (user == null || userId == null || pwd == null){
             return;
         }
+
+        if ( !user.getPassword().equals(pwd)){
+            pwd = MD5Util.getMd5Str(pwd);
+        }
+
         User user1 = new User(
                 Integer.parseInt(userId),
                 request.getParameter("userName"),
                 request.getParameter("account"),
-                request.getParameter("pwd"),
+                pwd,
                 request.getParameter("tel"),
                 request.getParameter("address"),
                 Integer.parseInt(power)

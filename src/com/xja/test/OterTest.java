@@ -12,6 +12,6 @@ public class OterTest {
 
     @Test
     public void test01(){
-        System.out.println(MD5Util.getMd5Str("qwe"));
+        System.out.println(MD5Util.getMd5Str("asd"));
     }
 }
