@@ -30,13 +30,15 @@ public class IndexFilter implements Filter {
         if(path.contains("/start") ||
                 path.contains("/user") ||
                 path.contains("/dish") ||
-                path.contains("/jquery-1.8.3.js") ||
                 path.contains("/login") ||
                 path.contains("/index") ||
                 path.contains("/forgotpwd") ||
                 path.contains("/register") ||
                 path.contains("/images") ||
-                path.contains("/error")
+                path.contains("/error") ||
+                path.contains(".css") ||
+                path.contains(".js") ||
+                path.contains("/font")
         ){
             filterChain.doFilter(servletRequest,servletResponse);
             return;

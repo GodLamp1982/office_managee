@@ -26,6 +26,12 @@ $(function () {
         $("#a1").attr("href",href);
     });
 
+    $('#login-button').click(function (event) {
+        event.preventDefault();
+        $('form').fadeOut(500);
+        $('.wrapper').addClass('form-success');
+    });
+
 });
 
 function getCode() {
