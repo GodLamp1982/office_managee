@@ -1,1 +1,2 @@
-# office_managee
+# 网络点餐系统
+JavaWeb-JSP、Servlet、MVC
