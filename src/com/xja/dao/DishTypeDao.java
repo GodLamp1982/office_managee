@@ -40,4 +40,12 @@ public interface DishTypeDao {
      * @throws SQLException
      */
     int add(String typeName) throws SQLException;
+
+    /**
+     * 返回一个类型有多少餐品
+     * @param typeId
+     * @return
+     * @throws SQLException
+     */
+    int allDishInOneTypeCount(int typeId) throws SQLException;
 }

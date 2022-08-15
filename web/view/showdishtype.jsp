@@ -17,18 +17,23 @@
         <tr>
             <td>序号</td>
             <td>分类名称</td>
+            <td>菜品数</td>
             <td>操作</td>
         </tr>
 
+        <c:set var="k" value="0" />
         <c:forEach items="${requestScope.dishTypes}" var="t">
             <tr>
+
                 <td>${t.typeId}</td>
                 <td>${t.typeName}</td>
+                <td>${requestScope.oneTypeAllDish.get(k)}</td>
                 <td>
                     <a href="view/adddishtype.jsp?typeName=${t.typeName}&typeId=${t.typeId}">修改</a>
                     /
                     <a href="dish?action=delType&id=${t.typeId}">删除</a>
                 </td>
+                <c:set var="k" value="${k+1}"/>
             </tr>
         </c:forEach>
     </table>

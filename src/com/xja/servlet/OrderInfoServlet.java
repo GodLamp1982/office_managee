@@ -86,7 +86,7 @@ public class OrderInfoServlet extends HttpServlet {
         }
         request.setAttribute("allUserOrderNumberDish",list);
 
-        //页面302问题
+        //页面302问题无效
         response.setHeader("Location", request.getContextPath() + "/order?action=findAllOrder");
 
         request.getRequestDispatcher("view/userorderingdetail.jsp").forward(request,response);

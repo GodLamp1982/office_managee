@@ -84,4 +84,23 @@ public class DishTypeDaoImpl implements DishTypeDao {
         return psm.executeUpdate();
     }
 
+    /**
+     * 返回一个类型有多少餐品
+     * @param typeId
+     * @return
+     * @throws SQLException
+     */
+    @Override
+    public int allDishInOneTypeCount(int typeId) throws SQLException {
+        String sql = "select count(1) from ac_dish where typeid=?;";
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement psm = conn.prepareStatement(sql);
+        psm.setInt(1,typeId);
+        ResultSet rs = psm.executeQuery();
+        if (rs.next()){
+            return rs.getInt(1);
+        }
+        return -1;
+    }
+
 }

@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author GodLamp
@@ -356,10 +358,17 @@ public class DishServlet extends HttpServlet {
      * @param response
      */
     private void findAllDishType(HttpServletRequest request, HttpServletResponse response) {
+        List<DishType> allType = dishTypeService.findAllType();
         request.setAttribute(
                 "dishTypes",
-                dishTypeService.findAllType()
+                allType
         );
+        List<Integer> integerList = new ArrayList<>();
+        for (DishType dishType : allType) {
+            integerList.add(dishTypeService.allDishInOneTypeCount(dishType.getTypeId()));
+        }
+
+        request.setAttribute("oneTypeAllDish",integerList);
         try {
             request.getRequestDispatcher("view/showdishtype.jsp").forward(request,response);
         } catch (ServletException e) {

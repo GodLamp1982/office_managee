@@ -82,4 +82,21 @@ public class DishTypeServiceImpl implements DishTypeService {
         return -1;
     }
 
+    /**
+     * 返回一个类型有多少菜品
+     * @param typeId
+     * @return
+     */
+    @Override
+    public int allDishInOneTypeCount(int typeId){
+        try {
+            return dishTypeDao.allDishInOneTypeCount(typeId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close();
+        }
+        return -1;
+    }
+
 }

@@ -35,4 +35,11 @@ public interface DishTypeService {
      * @return
      */
     int add(String typeName);
+
+    /**
+     * 返回一个类型有多少菜品
+     * @param typeId
+     * @return
+     */
+    int allDishInOneTypeCount(int typeId);
 }
