@@ -1,2 +1,3 @@
 # 网络点餐系统
-JavaWeb-JSP、Servlet、MVC
+JavaWeb项目
+采用JSP、Servlet、MVC、JDBC等技术
