@@ -24,7 +24,6 @@
         <c:set var="k" value="0" />
         <c:forEach items="${requestScope.dishTypes}" var="t">
             <tr>
-
                 <td>${t.typeId}</td>
                 <td>${t.typeName}</td>
                 <td>${requestScope.oneTypeAllDish.get(k)}</td>

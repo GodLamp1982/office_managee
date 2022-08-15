@@ -271,9 +271,21 @@ public class DishServlet extends HttpServlet {
      * @param response
      */
     private void findAllDish(HttpServletRequest request, HttpServletResponse response) {
+        String currentPage = request.getParameter("currentPage");
+        int pageIndex = (currentPage == null ? 1 : Integer.parseInt(currentPage));
+//分页
+        //总页数
+        int countAll = (int) Math.ceil( (dishService.countAll() ) *1.0 / Page.PAGE_NUMBER);
+        request.setAttribute("allCount",countAll);
+        //上一页
+        request.setAttribute("preIndex",pageIndex > 1 ? (pageIndex - 1) : 1);
+        //下一页
+        request.setAttribute("nextIndex",pageIndex < countAll ? (pageIndex + 1) : countAll);
+
+
         request.setAttribute(
                 "allDishs",
-                dishService.findAllDishByRemark(-4,1)
+                dishService.findAllDishByRemark(-4,pageIndex)
         );
         request.setAttribute(
                 "allDishTypes",

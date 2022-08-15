@@ -10,6 +10,17 @@
 <html>
 <head>
     <title>菜品管理</title>
+    <style type="text/css">
+        ul{
+            display: block;
+            text-align: center;
+            list-style: none;
+        }
+        li{
+            float: left;
+            margin-left: 20px;
+        }
+    </style>
 </head>
 <body>
     <p>
@@ -59,6 +70,19 @@
                 </td>
             </tr>
         </c:forEach>
+        <tr>
+            <td colspan="7">
+                <ul>
+                    <li><a href="dish?action=findAllDish&currentPage=1">首页</a></li>
+                    <li><a href="dish?action=findAllDish&currentPage=${requestScope.preIndex}">上一页</a></li>
+                    <c:forEach begin="1" end="${requestScope.allCount}" var="i">
+                        <li><a href="dish?action=findAllDish&currentPage=${i}">${i}</a></li>
+                    </c:forEach>
+                    <li><a href="dish?action=findAllDish&currentPage=${requestScope.nextIndex}">下一页</a></li>
+                    <li><a href="dish?action=findAllDish&currentPage=${requestScope.allCount}">末页</a></li>
+                </ul>
+            </td>
+        </tr>
     </table>
 </body>
 
