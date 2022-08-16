@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author GodLamp
@@ -118,31 +120,20 @@ public class DishServlet extends HttpServlet {
      * @param response
      */
     private void searchByCondition(HttpServletRequest request, HttpServletResponse response) {
-        String title = request.getParameter("title");
+        Map<String,String> map = new HashMap<>();
+        map.put("title",request.getParameter("title"));
+        map.put("beginS",request.getParameter("begin"));
+        map.put("endS",request.getParameter("end"));
 
-        String beginS = request.getParameter("begin");
-        String endS = request.getParameter("end");
-        /*int begin = (beginS == null ? 0 : Integer.parseInt(beginS));
-        int end = (endS == null ? 0 : Integer.parseInt(endS));*/
-        int begin = 0;
-        int end = 0;
-        if (beginS != null && beginS != ""){
-            begin = Integer.parseInt(beginS);
-        }
-        if (endS != null && endS != ""){
-            end = Integer.parseInt(endS);
-        }
-
-        //前台当前页数索引
+        //前台获取当前页数索引
         String currentPage = request.getParameter("currentPage");
-
         int pageIndex = (currentPage == null ? 1 : Integer.parseInt(currentPage));
 
-        List<DishExt> dishList = dishService.searchDishByCondition(new Condition(title, begin, end));
+        List<DishExt> dishExtList = dishService.searchDishByCondition(map);
 
         request.setAttribute(
                 "allDish",
-                dishList
+                dishExtList
         );
         request.setAttribute(
                 "allDishType",
@@ -150,12 +141,12 @@ public class DishServlet extends HttpServlet {
         );
         //分页
         //总页数
-        int countAll = (int) Math.ceil(( dishList.size() *1.0 / Page.PAGE_NUMBER));
-        request.setAttribute("allCount",countAll);
+        Page page = new Page(dishExtList.size(), pageIndex);
+        request.setAttribute("allCount",page.getPageCount());
         //上一页
-        request.setAttribute("preIndex",pageIndex > 1 ? (pageIndex - 1) : 1);
+        request.setAttribute("preIndex",page.getPreIndex());
         //下一页
-        request.setAttribute("nextIndex",pageIndex < countAll ? (pageIndex + 1) : countAll);
+        request.setAttribute("nextIndex",page.getNextIndex());
 
         try {
             request.getRequestDispatcher("view/orderdish.jsp").forward(request,response);

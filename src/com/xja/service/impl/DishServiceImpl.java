@@ -10,6 +10,7 @@ import com.xja.util.DBUtil;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author GodLamp
@@ -159,13 +160,23 @@ public class DishServiceImpl implements DishService {
 
     /**
      * 根据条件查询
-     * @param condition
+     * @param map
      * @return
      */
     @Override
-    public List<DishExt> searchDishByCondition(Condition condition){
+    public List<DishExt> searchDishByCondition(Map<String,String> map){
+        int begin = 0;
+        int end = 0;
+        if (map.get("beginS") != null && map.get("beginS") != ""){
+            begin = Integer.parseInt(map.get("beginS"));
+        }
+        if (map.get("endS") != null && map.get("endS") != ""){
+            end = Integer.parseInt(map.get("endS"));
+        }
+
         try {
-            return dishDao.searchDishByCondition(condition);
+            return dishDao.searchDishByCondition(new Condition(map.get("title"),begin,end));
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

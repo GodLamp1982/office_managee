@@ -6,6 +6,7 @@ import com.xja.common.Condition;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author GodLamp
@@ -84,5 +85,5 @@ public interface DishService {
      * @param condition
      * @return
      */
-    List<DishExt> searchDishByCondition(Condition condition);
+    List<DishExt> searchDishByCondition(Map<String,String> map);
 }
