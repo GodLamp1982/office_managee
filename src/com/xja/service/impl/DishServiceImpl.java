@@ -2,6 +2,7 @@ package com.xja.service.impl;
 
 import com.xja.bean.Dish;
 import com.xja.bean.DishExt;
+import com.xja.common.Condition;
 import com.xja.common.Dao;
 import com.xja.dao.impl.DishDaoImpl;
 import com.xja.service.DishService;
@@ -139,6 +140,38 @@ public class DishServiceImpl implements DishService {
     @Override
     public int countAll(){
         return dao.countAllData("ac_dish");
+    }
+
+    /**
+     * 查询某个类型有多少菜品
+     * @param typeId
+     * @return
+     */
+    @Override
+    public int countAllByTypeId(int typeId){
+        String sql = "ac_dish ";
+        if (typeId > 0){
+            sql += "where typeid=" + typeId;
+        }
+
+        return dao.countAllData(sql);
+    }
+
+    /**
+     * 根据条件查询
+     * @param condition
+     * @return
+     */
+    @Override
+    public List<DishExt> searchDishByCondition(Condition condition){
+        try {
+            return dishDao.searchDishByCondition(condition);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close();
+        }
+        return null;
     }
 
 }

@@ -28,7 +28,7 @@
             <tr>
                 <td>账号</td>
                 <td>
-                    <input type="text" name="account"/><span></span>
+                    <input type="text" name="account"/><span>${requestScope.accountHasExist}</span>
                 </td>
             </tr>
             <c:choose>

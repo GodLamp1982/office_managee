@@ -278,12 +278,13 @@ public class UserServlet extends HttpServlet {
      * @param response
      */
     private void registerAccount(HttpServletRequest request, HttpServletResponse response) {
-        int pow = 0;
         String power = request.getParameter("pow");
         String account = request.getParameter("account");
-        if ( power != null || account == null){
-            pow = Integer.parseInt(power);
+        if (account == null){
+            return;
         }
+
+        int pow = (power == null ? 0 : Integer.parseInt(power));
 
         User account1 = userService.findByAccount(account);
         if (account1 != null){

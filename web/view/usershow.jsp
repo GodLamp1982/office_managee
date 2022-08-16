@@ -28,7 +28,7 @@
         request.getSession().setAttribute("judge",1);
     %>
 
-    <p style="width: 100%;text-align: center;"><a href="register.jsp">添加用户</a></p>
+    <p style="width: 100%;text-align: center;"><a href="register.jsp?power=1">添加用户</a></p>
     <table border="1" cellpadding="0"cellspacing="0" style="width: 100%;">
         <tr>
             <td>序号</td>

@@ -2,6 +2,7 @@ package com.xja.dao;
 
 import com.xja.bean.Dish;
 import com.xja.bean.DishExt;
+import com.xja.common.Condition;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -69,4 +70,12 @@ public interface DishDao {
      * @throws SQLException
      */
     int clickRoteDishAddOne(int dishId) throws SQLException;
+
+    /**
+     * 根据条件查询菜品
+     * @param condition
+     * @return
+     * @throws SQLException
+     */
+    List<DishExt> searchDishByCondition(Condition condition) throws SQLException;
 }

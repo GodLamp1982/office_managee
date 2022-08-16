@@ -12,6 +12,7 @@
     <title>点餐车</title>
 </head>
 <body>
+    <p style="text-align: center;">当前订单号：${sessionScope.currentOrderNumber}</p>
     <table border="1" cellpadding="0" cellspacing="0" style="width: 100%">
         <tr>
             <td>序号</td>

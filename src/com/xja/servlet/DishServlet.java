@@ -6,6 +6,7 @@ import com.jspsmart.upload.SmartUploadException;
 import com.xja.bean.Dish;
 import com.xja.bean.DishExt;
 import com.xja.bean.DishType;
+import com.xja.common.Condition;
 import com.xja.common.Page;
 import com.xja.service.impl.DishServiceImpl;
 import com.xja.service.impl.DishTypeServiceImpl;
@@ -102,8 +103,66 @@ public class DishServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
+            case "searchByCondition":
+                searchByCondition(request,response);
+                break;
             default:
                 break;
+        }
+
+    }
+
+    /**
+     * 按照条件搜索
+     * @param request
+     * @param response
+     */
+    private void searchByCondition(HttpServletRequest request, HttpServletResponse response) {
+        String title = request.getParameter("title");
+
+        String beginS = request.getParameter("begin");
+        String endS = request.getParameter("end");
+        /*int begin = (beginS == null ? 0 : Integer.parseInt(beginS));
+        int end = (endS == null ? 0 : Integer.parseInt(endS));*/
+        int begin = 0;
+        int end = 0;
+        if (beginS != null && beginS != ""){
+            begin = Integer.parseInt(beginS);
+        }
+        if (endS != null && endS != ""){
+            end = Integer.parseInt(endS);
+        }
+
+        //前台当前页数索引
+        String currentPage = request.getParameter("currentPage");
+
+        int pageIndex = (currentPage == null ? 1 : Integer.parseInt(currentPage));
+
+        List<DishExt> dishList = dishService.searchDishByCondition(new Condition(title, begin, end));
+
+        request.setAttribute(
+                "allDish",
+                dishList
+        );
+        request.setAttribute(
+                "allDishType",
+                dishTypeService.findAllType()
+        );
+        //分页
+        //总页数
+        int countAll = (int) Math.ceil(( dishList.size() *1.0 / Page.PAGE_NUMBER));
+        request.setAttribute("allCount",countAll);
+        //上一页
+        request.setAttribute("preIndex",pageIndex > 1 ? (pageIndex - 1) : 1);
+        //下一页
+        request.setAttribute("nextIndex",pageIndex < countAll ? (pageIndex + 1) : countAll);
+
+        try {
+            request.getRequestDispatcher("view/orderdish.jsp").forward(request,response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -396,7 +455,9 @@ public class DishServlet extends HttpServlet {
      * @param response
      */
     private void showGeneralUserIndex(HttpServletRequest request, HttpServletResponse response) {
+        //前台当前页数索引
         String currentPage = request.getParameter("currentPage");
+        //remark用于判断搜索范围。热点，特价，推荐，类型，全部菜品....
         String remarkS = request.getParameter("remark");
 
         int pageIndex = (currentPage == null ? 1 : Integer.parseInt(currentPage));
@@ -413,7 +474,7 @@ public class DishServlet extends HttpServlet {
 
         //分页
         //总页数
-        int countAll = (int) Math.ceil((dishService.countAll()) *1.0 / Page.PAGE_NUMBER);
+        int countAll = (int) Math.ceil((dishService.countAllByTypeId(remark)) *1.0 / Page.PAGE_NUMBER);
         request.setAttribute("allCount",countAll);
         //上一页
         request.setAttribute("preIndex",pageIndex > 1 ? (pageIndex - 1) : 1);

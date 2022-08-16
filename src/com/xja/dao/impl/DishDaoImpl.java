@@ -2,6 +2,7 @@ package com.xja.dao.impl;
 
 import com.xja.bean.Dish;
 import com.xja.bean.DishExt;
+import com.xja.common.Condition;
 import com.xja.common.Page;
 import com.xja.dao.DishDao;
 import com.xja.util.DBUtil;
@@ -203,6 +204,79 @@ public class DishDaoImpl implements DishDao {
         return psm.executeUpdate();
     }
 
+    /**
+     * 根据条件查询菜品
+     * @param condition
+     * @return
+     * @throws SQLException
+     */
+    @Override
+    public List<DishExt> searchDishByCondition(Condition condition) throws SQLException {
+        String sql = "SELECT m.*,a.typename FROM ac_dish m\n" +
+                "INNER JOIN ac_dish_type a ON m.typeid=a.typeid";
 
+        if ( (condition.getTitle() != null && condition.getTitle() != "") || condition.getBegin() >0 || condition.getEnd() > 0){
+            sql +=" WHERE";
+        }
+
+        List<Object> list = new ArrayList<>();
+
+        //根据关键字查询
+        if (condition.getTitle() != null && condition.getTitle() != ""){
+            sql += " LOCATE(?,m.dishname) OR LOCATE(?,m.feature) OR LOCATE(?,m.ingredients) OR LOCATE(?,a.typename) and";
+            for (int i = 0; i < 4; i++){
+                list.add(condition.getTitle());
+            }
+        }
+
+        //根据最低价格查询
+        if (condition.getBegin() > 0){
+            sql += " m.price >= ? and";
+            list.add(condition.getBegin());
+        }
+
+        //根据最高价格查询
+        if ( condition.getEnd() > 0 && condition.getEnd() >= condition.getBegin()){
+            sql += " m.price <= ?";
+            list.add(condition.getEnd());
+        }
+
+        //去除掉SQL语句末尾多余的 and
+        if ( (sql.length() - 3) == (sql.lastIndexOf("and")) ){
+            sql = sql.substring(0,sql.length() - 4);
+        }
+
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement psm = conn.prepareStatement(sql);
+
+        //批量设置 ? 值
+        if ( list.size() > 0){
+            for (int i = 0; i < list.size(); i++){
+                psm.setObject( (i + 1),list.get(i));
+            }
+        }
+
+        ResultSet rs = psm.executeQuery();
+
+        List<DishExt> dishExtList = new ArrayList<>();
+        while (rs.next()){
+            dishExtList.add(new DishExt(
+                    new Dish(
+                            rs.getInt("dishid"),
+                            rs.getString("dishname"),
+                            rs.getString("feature"),
+                            rs.getString("ingredients"),
+                            rs.getInt("price"),
+                            rs.getInt("typeid"),
+                            rs.getString("photo"),
+                            rs.getInt("clickrote"),
+                            rs.getInt("remark")
+                    ),
+                    rs.getString("typename")
+            ));
+        }
+
+        return dishExtList;
+    }
 
 }

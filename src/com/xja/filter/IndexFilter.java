@@ -48,7 +48,7 @@ public class IndexFilter implements Filter {
         User currentUser = (User) session.getAttribute("currentUser");
         if(currentUser == null){
             response.sendRedirect(request.getContextPath() + "/start.jsp");
-            //return;
+            return;
         }
 
         filterChain.doFilter(request,response);

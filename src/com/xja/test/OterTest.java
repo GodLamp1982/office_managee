@@ -13,5 +13,10 @@ public class OterTest {
     @Test
     public void test01(){
         System.out.println(MD5Util.getMd5Str("asd"));
+        String sql = "Hjcja hasc hoka and ihdoia and";
+        System.out.println(sql.length());
+        System.out.println(sql.lastIndexOf("and"));
+        System.out.println(sql.substring(0, sql.length() - 4));
+
     }
 }

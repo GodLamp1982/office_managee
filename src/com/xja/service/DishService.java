@@ -2,6 +2,7 @@ package com.xja.service;
 
 import com.xja.bean.Dish;
 import com.xja.bean.DishExt;
+import com.xja.common.Condition;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -70,4 +71,18 @@ public interface DishService {
      * @return
      */
     int countAll();
+
+    /**
+     * 查询某个类型有多少菜品
+     * @param typeId
+     * @return
+     */
+    int countAllByTypeId(int typeId);
+
+    /**
+     * 根据条件查询
+     * @param condition
+     * @return
+     */
+    List<DishExt> searchDishByCondition(Condition condition);
 }

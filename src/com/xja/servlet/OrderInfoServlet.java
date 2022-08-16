@@ -86,10 +86,11 @@ public class OrderInfoServlet extends HttpServlet {
         }
         request.setAttribute("allUserOrderNumberDish",list);
 
-        //页面302问题无效
-        response.setHeader("Location", request.getContextPath() + "/order?action=findAllOrder");
+        /*//页面302问题无效
+        response.setHeader("Location", request.getContextPath() + "/order?action=findAllOrder");*/
 
         request.getRequestDispatcher("view/userorderingdetail.jsp").forward(request,response);
+        return;
     }
 
     /**
@@ -162,10 +163,11 @@ public class OrderInfoServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("currentUser");
         String orderNumber = (String) request.getSession().getAttribute("currentOrderNumber");
 
-        if (orderNumber == null || orderInfoService.findAllOrderByUserIdAndOrderNumber(user.getUserId(), orderNumber,0) == null){
+        if (orderNumber == null || orderInfoService.findAllOrderByUserIdAndOrderNumber(user.getUserId(), orderNumber,0).size() == 0){
             try {
-                request.setAttribute("noOrderCarError","没有商品");
+                request.setAttribute("noOrderCarError",true);
                 request.getRequestDispatcher("dish?action=generalUserIndex").forward(request,response);
+                return;
             } catch (ServletException e) {
                 e.printStackTrace();
             } catch (IOException e) {

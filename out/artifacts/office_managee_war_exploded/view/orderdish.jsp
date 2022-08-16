@@ -30,14 +30,28 @@
     <h1 style="text-align: center">欢迎${sessionScope.currentUser.userName}，进入点餐系统</h1>
     <hr>
     <p style="text-align: center;">
-        <a href="dish?action=generalUserIndex">全部</a>
+        <a href="dish?action=generalUserIndex">全部</a>&nbsp;&nbsp;&nbsp;
+
+        <%--菜品类型--%>
         <c:forEach items="${requestScope.allDishType}" var="t">
             <a href="dish?action=generalUserIndex&remark=${t.typeId}">${t.typeName}</a>&nbsp;&nbsp;&nbsp;
         </c:forEach>
-        <a href="order?action=orderCar" id="a1">查看点餐车</a><span><sub>${requestScope.noOrderCarError}</sub></span>&nbsp;&nbsp;&nbsp;
+
+        <a href="order?action=orderCar" id="a1">查看点餐车</a>&nbsp;&nbsp;&nbsp;
+
         <a href="<%=request.getContextPath()%>/view/persondata.jsp">修改个人资料</a>&nbsp;&nbsp;&nbsp;
+
         <a href="user?action=quitSystem">退出点餐系统</a>&nbsp;&nbsp;&nbsp;
     </p>
+    <%--按照条件搜索--%>
+    <form action="dish?action=searchByCondition" method="post">
+        <p style="text-align: center;">
+            <input type="text" name="title" placeholder="请输入关键字" style="width: 200px;"/>
+            <input type="number" name="begin" placeholder="请输入最低价格" style="width: 150px;"/>
+            <input type="number" name="end" placeholder="请输入最高价格" style="width: 150px;"/>
+            <input type="submit" value="搜索"/>
+        </p>
+    </form>
 
     <table border="1" cellspacing="0"cellpadding="0" style="width: 100%">
         <tr style="text-align: center;">
@@ -107,5 +121,12 @@
 
 <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="js/orderdish.js"></script>
+<script type="text/javascript">
+    $(function (){
+        if ( ${requestScope.noOrderCarError} ){
+            alert("没有选中的商品");
+        }
+    });
+</script>
 
 </html>
