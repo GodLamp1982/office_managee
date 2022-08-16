@@ -1,0 +1,43 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+/*超链接*/
+a{
+    text-decoration: none;
+}
+
+a:link{
+    color: #000000;
+}
+
+a:visited{
+    color: #000000;
+}
+
+a:hover{
+    color: blueviolet;
+}
+
+a:active{
+    color: #49A9DE;
+}
+
+/*背景图*/
+/*html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-image: url('../images/bg_01.png') ;
+    background-repeat: no-repeat ;
+    !* 缩放背景图 *!
+    background-size: cover;
+    background-position: center 0;
+}*/
+
+img{
+    border-radius: 10%;
+}
