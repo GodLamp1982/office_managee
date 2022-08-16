@@ -10,9 +10,19 @@
 <html>
 <head>
     <title>增加菜品</title>
+    <style type="text/css">
+        input{
+            width: 200px;
+            height: 30px;
+        }
+        .allbutton{
+            width: 150px;
+            height: 35px;
+        }
+    </style>
 </head>
 <form action="dish?action=addDishInfo" method="post" enctype="multipart/form-data">
-    <table border="1" cellpadding="0" cellspacing="0">
+    <table border="1" cellpadding="0" cellspacing="0" style="width: 500px;height: 500px;margin: 20px auto;text-align: center;">
         <tr>
             <td>菜名</td>
             <td>
@@ -40,7 +50,7 @@
         <tr>
             <td>类型</td>
             <td>
-                <select name="typeId">
+                <select name="typeId" class="allbutton">
                     <c:forEach items="${requestScope.allDishTypess}" var="t">
                         <option value="${t.typeId}" ${d.dish.typeId == t.typeId ? "checked='checked'" : ""}>${t.typeName}</option>
                     </c:forEach>
@@ -50,13 +60,13 @@
         <tr>
             <td>图片</td>
             <td>
-                <input type="file" name="file"/>
+                <input type="file" name="file" class="allbutton"/>
             </td>
         </tr>
         <tr>
             <td>备注</td>
             <td>
-                <select name="remark">
+                <select name="remark" class="allbutton">
                     <option value="0">无</option>
                     <option value="1">今日特价</option>
                     <option value="2">厨师推荐</option>

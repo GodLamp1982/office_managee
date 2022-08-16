@@ -14,6 +14,7 @@
     <style type="text/css">
         td{
             width: 200px;
+            height: 35px;
         }
         tr{
             text-align: center;
@@ -28,7 +29,7 @@
     <div style="width: 100%;" align="center">
         <c:set var="o" value="1"/>
         <c:forEach items="${requestScope.allUserOrderNumberDish}" var="a">
-            <table border="1" cellspacing="0" cellpadding="0" style="display: inline-block;margin: 50px 30px;">
+            <table border="1" cellspacing="0" cellpadding="0" style="display: inline-block;margin: 40px 30px;">
                 <tr>
                     <td>订单号</td>
                     <td>${a.orderNumber}</td>

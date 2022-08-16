@@ -27,6 +27,9 @@
             height: 35px;
             font-size: 17px;
         }
+        tr td{
+            height: 50px;
+        }
     </style>
 </head>
 <body>
@@ -36,7 +39,7 @@
     %>
 
     <p style="width: 100%;text-align: right;height: 50px;margin-top: 20px;"><button type="button"><a href="register.jsp?power=1">添加用户</a></button></p>
-    <table border="1" cellpadding="0"cellspacing="0" style="width: 100%;">
+    <table border="1" cellpadding="0"cellspacing="0" style="width: 100%;text-align: center;">
         <tr>
             <td>序号</td>
             <td>姓名</td>

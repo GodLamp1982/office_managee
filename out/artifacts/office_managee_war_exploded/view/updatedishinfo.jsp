@@ -10,11 +10,20 @@
 <html>
 <head>
     <title>修改菜品信息</title>
+    <style type="text/css">
+        tr{
+            height: 50px;
+        }
+        input{
+            width: 300px;
+            height: 30px;
+        }
+    </style>
 </head>
 <body>
 <c:set value="${requestScope.dish}" var="d" />
 <form action="dish?action=updateDishInfo&dishId=${d.dish.dishId}" method="post" enctype="multipart/form-data">
-<table border="1" cellpadding="0" cellspacing="0">
+<table border="1" cellpadding="0" cellspacing="0" style="width: 500px;margin: 15px auto;text-align: center;">
     <tr>
         <td>菜名</td>
         <td>
@@ -72,8 +81,8 @@
     </tr>
     <tr>
         <td colspan="2" style="text-align: center;">
-            <input type="submit" value="修改"/>&nbsp;
-            <input type="button" value="返回"/>
+            <input type="submit" value="修改" style="margin: 10px;"/>
+            <input type="button" value="返回" style="margin: 10px;"/>
         </td>
     </tr>
 
