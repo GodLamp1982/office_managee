@@ -9,7 +9,29 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head>
-<title>修改个人资料</title>
+        <title>修改个人资料</title>
+        <style type="text/css">
+            html {
+                height: 100%;
+            }
+
+            body {
+                height: 90%;
+                background-image: url('<%=request.getContextPath()%>/images/bg_06.png') ;
+                background-repeat: no-repeat ;
+                /*!* 缩放背景图 *!*/
+                background-size: cover;
+                background-position: center 0;
+            }
+            input{
+                width: 300px;
+                height: 40px;
+                font-size: 18px;
+            }
+            tr td:first-child{
+                width: 80px;
+            }
+        </style>
     </head>
     <body>
     <form action="<%=request.getContextPath()%>/user?action=updateUserData" method="post">
@@ -20,7 +42,7 @@
             <c:set var="u" value="${requestScope.managerUpdatePersonData}" />
         </c:if>
 
-        <table border="1" cellspacing="0" cellpadding="0">
+        <table border="1" cellspacing="0" cellpadding="0" style="width: 500px;height: 500px;margin: 50px auto;background-color: lightgrey;text-align: center;">
             <tr>
                 <td>姓名</td>
                 <td>
@@ -55,7 +77,7 @@
             </tr>
             <tr style="text-align: center;">
                 <td colspan="2">
-                    <input type="submit" value="修改" style="margin-right: 60px;"/>
+                    <input type="submit" value="修改" style="margin-bottom: 20px;"/><br>
                     <input type="button" value="返回"/>
                 </td>
             </tr>

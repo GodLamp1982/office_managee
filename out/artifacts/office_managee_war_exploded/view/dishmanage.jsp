@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>菜品管理</title>
+    <link rel="stylesheet" href="css/default.css" type="text/css"/>
     <style type="text/css">
         ul{
             display: block;
@@ -20,18 +21,27 @@
             float: left;
             margin-left: 20px;
         }
+        .allbutton{
+            width: 100px;
+            height: 25px;
+            font-size: 16px;
+            margin: 15px 15px;
+        }
+        tr td{
+            height: 50px;
+        }
     </style>
 </head>
 <body>
     <p>
-        <a href="dish?action=findAllDishTypessss">添加菜品</a>&nbsp;
-        <select name="selectDishType">
+        <select name="selectDishType" class="allbutton">
             <option value="-4">全部</option>
             <c:forEach items="${requestScope.allDishTypes}" var="t">
                 <option value="${t.typeId}">${t.typeName}</option>
             </c:forEach>
         </select>
-        <input type="button" value="按分类查询"/>
+        <input type="button" value="按分类查询" class="allbutton"/>
+        <button type="button" class="allbutton" style="float: right;margin-right: 30px"><a href="dish?action=findAllDishTypessss">添加菜品</a></button>
     </p>
     <table border="1" cellspacing="0" cellpadding="0" style="width: 100%;text-align: center;">
         <tr>
@@ -72,7 +82,7 @@
         </c:forEach>
         <tr>
             <td colspan="7">
-                <ul>
+                <ul style="margin-left: 500px;">
                     <li><a href="dish?action=findAllDish&currentPage=1">首页</a></li>
                     <li><a href="dish?action=findAllDish&currentPage=${requestScope.preIndex}">上一页</a></li>
                     <c:forEach begin="1" end="${requestScope.allCount}" var="i">

@@ -189,7 +189,7 @@ public class OrderInfoServlet extends HttpServlet {
         String orderNumber = (String) request.getSession().getAttribute("currentOrderNumber");
 
         request.removeAttribute("noOrderCarError");
-        if (orderNumber == null || orderInfoService.findAllOrderByUserIdAndOrderNumber(user.getUserId(), orderNumber,0).size() == 0){
+        if (orderNumber == null || orderNumber == "" || orderInfoService.findAllOrderByUserIdAndOrderNumber(user.getUserId(), orderNumber,0).size() == 0){
             try {
                 request.setAttribute("noOrderCarError",true);
                 request.getRequestDispatcher("dish?action=generalUserIndex").forward(request,response);

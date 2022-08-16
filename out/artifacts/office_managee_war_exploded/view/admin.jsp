@@ -41,6 +41,6 @@
         <button type="button"><a href="order?action=findAllOrder" target="frame">查看用户点餐情况</a></button>
         <button type="button"><a href="user?action=quitSystem">退出点餐系统</a></button>
     </div>
-    <iframe name="frame" src="" style="width: 89%;height: 600px;display: inline-block;float: left;background-color: lightgrey"></iframe>
+    <iframe name="frame" src="" style="width: 89%;height: 600px;display: inline-block;float: left;background-color: ghostwhite"></iframe>
 </body>
 </html>

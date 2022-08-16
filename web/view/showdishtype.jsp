@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>菜品分类管理</title>
+    <link type="text/css" rel="stylesheet" href="css/default.css">
     <style type="text/css">
         button{
             margin-right: 20px;

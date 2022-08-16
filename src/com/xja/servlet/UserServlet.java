@@ -343,7 +343,14 @@ public class UserServlet extends HttpServlet {
         String code = request.getParameter("code");
         String correctCode = (String) request.getSession().getAttribute("correctCode");
 
-        if (account == null || pwd == null || code == null){
+        if (account == null || correctCode == null || pwd == null || code == null){
+            try {
+                request.getRequestDispatcher(request.getContextPath() + "/login.jsp").forward(request,response);
+            } catch (ServletException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return;
         }
 

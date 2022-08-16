@@ -26,8 +26,9 @@
 </head>
 <body>
     <div style="width: 100%;" align="center">
+        <c:set var="o" value="1"/>
         <c:forEach items="${requestScope.allUserOrderNumberDish}" var="a">
-            <table border="1" cellspacing="0" cellpadding="0" style="margin-bottom: 20px;">
+            <table border="1" cellspacing="0" cellpadding="0" style="display: inline-block;margin: 50px 30px;">
                 <tr>
                     <td>订单号</td>
                     <td>${a.orderNumber}</td>
@@ -48,6 +49,10 @@
                     <td>${a.total}元</td>
                 </tr>
             </table>
+            <c:if test="${o == 2}">
+                <br>
+            </c:if>
+            <c:set var="o" value="${o + 1}"/>
         </c:forEach>
 
         <ul style="list-style: none;margin-left: 510px;height: 35px;line-height: 35px;">
