@@ -84,7 +84,7 @@
     </div>
 
     <div style="background-color: whitesmoke;float: left;display: inline-block;width: 89%;">
-        <table border="1" cellspacing="0"cellpadding="0" style="">
+        <table border="1" cellspacing="0"cellpadding="0" style="width: 100%;">
             <tr style="text-align: center;">
                 <td>序号</td>
                 <td>菜名</td>
@@ -127,9 +127,9 @@
                 </tr>
             </c:forEach>
 
-            <tr style="text-align: center">
+            <tr style="text-align: center;">
                 <td colspan="10">
-                    <ul>
+                    <ul style="margin-left: 550px;height: 35px;line-height: 35px;">
                         <li><a href="dish?action=generalUserIndex&currentPage=1">首页</a></li>
                         <li><a href="dish?action=generalUserIndex&currentPage=${requestScope.preIndex}">上一页</a></li>
                         <c:forEach begin="1" end="${requestScope.allCount}" var="i">
@@ -144,7 +144,7 @@
             <tr style="text-align: center;">
                 <td colspan="10">
                     <input type="hidden" name="path" value="<%=request.getContextPath()%>"/>
-                    <input type="button" value="加入点餐车"/>
+                    <input type="button" value="加入点餐车" style="width: 150px;height: 35px;font-size: 20px;"/>
                 </td>
             </tr>
         </table>
