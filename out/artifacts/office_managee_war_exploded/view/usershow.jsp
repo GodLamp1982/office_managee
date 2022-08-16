@@ -54,7 +54,7 @@
         </c:forEach>
         <tr>
             <td colspan="6">
-                <ul>
+                <ul style="margin-left: 550px;height: 35px;line-height: 35px;">
                     <li><a href="user?action=allUser&currentPage=1">首页</a></li>
                     <li><a href="user?action=allUser&currentPage=${requestScope.preIndex}">上一页</a></li>
                     <c:forEach begin="1" end="${requestScope.allCount}" var="i">

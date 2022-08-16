@@ -9,17 +9,26 @@
 <html>
 <head>
     <title>管理员界面</title>
+    <link type="text/css" rel="stylesheet" href="css/default.css"/>
+    <style type="text/css">
+        button{
+            margin-right: 20px;
+            width: 140px;
+            height: 35px;
+            font-size: 17px;
+        }
+    </style>
 </head>
 <body>
-    <h1 style="width: 100%;text-align: center;">您好，${sessionScope.currentUser.userName}管理员</h1>
+    <h1 style="width: 100%;text-align: center;height: 60px;line-height: 60px;">您好，${sessionScope.currentUser.userName}管理员</h1>
     <hr>
-    <p style="text-align: center;">
-        <a href="user?action=allUser" target="frame">用户管理</a>&nbsp;&nbsp;
-        <a href="dish?action=dishTypeManage" target="frame">菜品分类管理</a>&nbsp;&nbsp;
-        <a href="dish?action=findAllDish" target="frame">菜品管理</a>&nbsp;&nbsp;
-        <a href="order?action=findAllOrder" target="frame">查看用户点餐情况</a>&nbsp;&nbsp;
-        <a href="user?action=quitSystem">退出点餐系统</a>
-    </p>
-    <iframe name="frame" src="" width="100%" height="600px"></iframe>
+    <div style="display: inline-block;width: 10%;float: left;">
+        <button type="button"><a href="user?action=allUser" target="frame">用户管理</a></button>
+        <button type="button"><a href="dish?action=dishTypeManage" target="frame">菜品分类管理</a></button>
+        <button type="button"><a href="dish?action=findAllDish" target="frame">菜品管理</a></button>
+        <button type="button"><a href="order?action=findAllOrder" target="frame">查看用户点餐情况</a></button>
+        <button type="button"><a href="user?action=quitSystem">退出点餐系统</a></button>
+    </div>
+    <iframe name="frame" src="" style="width: 89%;height: 600px;display: inline-block;float: left;"></iframe>
 </body>
 </html>

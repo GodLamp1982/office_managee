@@ -10,10 +10,18 @@
 <html>
 <head>
     <title>菜品分类管理</title>
+    <style type="text/css">
+        button{
+            margin-right: 20px;
+            width: 140px;
+            height: 35px;
+            font-size: 17px;
+        }
+    </style>
 </head>
 <body>
-    <p style="width: 100%;text-align: center;"><a href="view/adddishtype.jsp">添加菜品分类</a></p>
-    <table border="1" cellspacing="0" cellpadding="0">
+    <p style="width: 100%;text-align: right;font-size: 17px;"><button type="button"><a href="view/adddishtype.jsp">添加菜品分类</a></button></p>
+    <table border="1" cellspacing="0" cellpadding="0" style="width: 600px;height: 400px;text-align: center;margin: 0px auto">
         <tr>
             <td>序号</td>
             <td>分类名称</td>

@@ -38,7 +38,8 @@ public class IndexFilter implements Filter {
                 path.contains("/error") ||
                 path.contains(".css") ||
                 path.contains(".js") ||
-                path.contains("/font")
+                path.contains("/font") ||
+                path.contains("/order")
         ){
             filterChain.doFilter(servletRequest,servletResponse);
             return;

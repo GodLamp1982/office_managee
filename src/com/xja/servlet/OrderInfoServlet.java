@@ -3,6 +3,7 @@ package com.xja.servlet;
 import com.xja.bean.DishExt;
 import com.xja.bean.User;
 import com.xja.common.BackValue;
+import com.xja.common.Page;
 import com.xja.service.impl.OrderInfoServiceImpl;
 import com.xja.service.impl.UserServiceImpl;
 import com.xja.util.Utils;
@@ -55,10 +56,20 @@ public class OrderInfoServlet extends HttpServlet {
      * @param response
      */
     private void findAllOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String currentPage = request.getParameter("currentPage");
+
+        int pageIndex = 0;
+        if (currentPage == null || currentPage == ""){
+            pageIndex = 1;
+        } else {
+            pageIndex = Integer.parseInt(currentPage);
+        }
+
         //全部用户
         List<User> allUser = userService.findAllUser();
         //存放全部结果--所有用户的所有订单，每个用户包含用户名、全部餐品、总价格
         List<BackValue> list = new ArrayList<>();
+        List<BackValue> valueList = new ArrayList<>();
         BackValue backValue;
 
         //全部用户
@@ -84,13 +95,27 @@ public class OrderInfoServlet extends HttpServlet {
             }
 
         }
-        request.setAttribute("allUserOrderNumberDish",list);
+
+        //分页
+        int allCount = (int) Math.ceil(list.size() * 1.0 / Page.PAGE_NUMBER);
+        request.setAttribute("allCount",allCount);
+        request.setAttribute("preIndex",pageIndex > 1 ? (pageIndex - 1) : 1);
+        request.setAttribute("nextIndex", pageIndex < allCount ? (pageIndex + 1) : allCount);
+
+        for (int i = 0,j = (pageIndex-1) * Page.PAGE_NUMBER; i < Page.PAGE_NUMBER; i++,j++){
+            if (j >= list.size()){
+                continue;
+            }
+            valueList.add(list.get(j));
+        }
+
+        request.setAttribute("allUserOrderNumberDish",valueList);
 
         /*//页面302问题无效
         response.setHeader("Location", request.getContextPath() + "/order?action=findAllOrder");*/
 
         request.getRequestDispatcher("view/userorderingdetail.jsp").forward(request,response);
-        return;
+        //return;
     }
 
     /**
