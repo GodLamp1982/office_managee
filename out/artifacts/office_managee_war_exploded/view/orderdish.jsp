@@ -156,8 +156,15 @@
 <script type="text/javascript" src="js/orderdish.js"></script>
 <script type="text/javascript">
     $(function (){
-        if ( ${requestScope.noOrderCarError} ){
-            alert("没有选中的商品");
+        var re1 = "${requestScope.noOrderCarError}";
+
+        if (re1.length > 1){
+            alert("点餐车中没有您选中的商品");
+        }
+
+        var re2 = "${requestScope.noSelect}";
+        if (re2.length > 1){
+            alert("没有选中商品");
         }
     });
 </script>

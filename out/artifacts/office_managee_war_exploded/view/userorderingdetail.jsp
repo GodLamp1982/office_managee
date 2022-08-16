@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>用户点餐详情</title>
+    <link type="text/css" rel="stylesheet" href="css/default.css"/>
     <style type="text/css">
         td{
             width: 200px;
@@ -17,33 +18,50 @@
         tr{
             text-align: center;
         }
+        ul li{
+            float: left;
+            margin-left: 20px;
+        }
     </style>
 </head>
 <body>
-    <c:forEach items="${requestScope.allUserOrderNumberDish}" var="a">
-        <table border="1" cellspacing="0" cellpadding="0" style="margin-bottom: 20px;">
-            <tr>
-                <td>订单号</td>
-                <td>${a.orderNumber}</td>
-            </tr>
-            <tr>
-                <td>点餐用户</td>
-                <td>${a.userName}</td>
-            </tr>
-            <c:forEach items="${a.dishMap.keySet()}" var="k" >
+    <div style="width: 100%;" align="center">
+        <c:forEach items="${requestScope.allUserOrderNumberDish}" var="a">
+            <table border="1" cellspacing="0" cellpadding="0" style="margin-bottom: 20px;">
                 <tr>
-                    <td>${k}</td>
-                    <td>${a.dishMap.get(k)}元</td>
+                    <td>订单号</td>
+                    <td>${a.orderNumber}</td>
                 </tr>
-            </c:forEach>
+                <tr>
+                    <td>点餐用户</td>
+                    <td>${a.userName}</td>
+                </tr>
+                <c:forEach items="${a.dishMap.keySet()}" var="k" >
+                    <tr>
+                        <td>${k}</td>
+                        <td>${a.dishMap.get(k)}元</td>
+                    </tr>
+                </c:forEach>
 
-            <tr>
-                <td>合计</td>
-                <td>${a.total}元</td>
-            </tr>
-        </table>
-    </c:forEach>
-    <%--<p style="width: 100px;"><input type="button" value="返回" style="width: 50px;height: 30px;margin-left: 120px;"/></p>--%>
+                <tr>
+                    <td>合计</td>
+                    <td>${a.total}元</td>
+                </tr>
+            </table>
+        </c:forEach>
+
+        <ul style="list-style: none;margin-left: 510px;height: 35px;line-height: 35px;">
+            <li><a href="order?action=findAllOrder&currentPage=1">首页</a></li>
+            <li><a href="order?action=findAllOrder&currentPage=${requestScope.preIndex}">上一页</a></li>
+            <c:forEach begin="1" end="${requestScope.allCount}" var="p">
+                <li><a href="order?action=findAllOrder&currentPage=${p}">${p}</a></li>
+            </c:forEach>
+            <li><a href="order?action=findAllOrder&currentPage=${requestScope.nextIndex}">下一页</a></li>
+            <li><a href="order?action=findAllOrder&currentPage=${requestScope.allCount}">末页</a></li>
+        </ul>
+    </div>
+
+
 </body>
 
 <script type="text/javascript" src="js/jquery-1.8.3.js"></script>

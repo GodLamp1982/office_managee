@@ -188,6 +188,7 @@ public class OrderInfoServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("currentUser");
         String orderNumber = (String) request.getSession().getAttribute("currentOrderNumber");
 
+        request.removeAttribute("noOrderCarError");
         if (orderNumber == null || orderInfoService.findAllOrderByUserIdAndOrderNumber(user.getUserId(), orderNumber,0).size() == 0){
             try {
                 request.setAttribute("noOrderCarError",true);
@@ -228,7 +229,16 @@ public class OrderInfoServlet extends HttpServlet {
 
         String dishIds = request.getParameter("dishIds");
 
-        if(dishIds == null){
+        request.removeAttribute("noSelect");
+        if(dishIds == null || dishIds == ""){
+            try {
+                request.setAttribute("noSelect",true);
+                request.getRequestDispatcher("dish?action=generalUserIndex").forward(request,response);
+            } catch (ServletException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return;
         }
 

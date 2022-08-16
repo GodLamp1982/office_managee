@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>用户</title>
+    <link type="text/css" rel="stylesheet" href="css/default.css"/>
     <style type="text/css">
         ul{
             display: block;
@@ -20,6 +21,12 @@
             float: left;
             margin-left: 20px;
         }
+        button{
+            margin-right: 20px;
+            width: 140px;
+            height: 35px;
+            font-size: 17px;
+        }
     </style>
 </head>
 <body>
@@ -28,7 +35,7 @@
         request.getSession().setAttribute("judge",1);
     %>
 
-    <p style="width: 100%;text-align: center;"><a href="register.jsp?power=1">添加用户</a></p>
+    <p style="width: 100%;text-align: right;height: 50px;margin-top: 20px;"><button type="button"><a href="register.jsp?power=1">添加用户</a></button></p>
     <table border="1" cellpadding="0"cellspacing="0" style="width: 100%;">
         <tr>
             <td>序号</td>
@@ -68,4 +75,12 @@
     </table>
 
 </body>
+
+<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("tr:odd").addClass("background-color","lightgray");
+    });
+</script>
+
 </html>

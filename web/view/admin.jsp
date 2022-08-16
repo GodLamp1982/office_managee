@@ -17,6 +17,18 @@
             height: 35px;
             font-size: 17px;
         }
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            background-image: url('<%=request.getContextPath()%>/images/bg_04.png') ;
+            background-repeat: no-repeat ;
+            /* 缩放背景图 */
+            background-size: cover;
+            background-position: center 0;
+        }
     </style>
 </head>
 <body>
@@ -29,6 +41,6 @@
         <button type="button"><a href="order?action=findAllOrder" target="frame">查看用户点餐情况</a></button>
         <button type="button"><a href="user?action=quitSystem">退出点餐系统</a></button>
     </div>
-    <iframe name="frame" src="" style="width: 89%;height: 600px;display: inline-block;float: left;"></iframe>
+    <iframe name="frame" src="" style="width: 89%;height: 600px;display: inline-block;float: left;background-color: lightgrey"></iframe>
 </body>
 </html>
