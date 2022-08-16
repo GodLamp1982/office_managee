@@ -12,10 +12,12 @@ $(function () {
         location.href=path +"/order?action=addBatchOrder&dishIds=" + str;
     });
 
-    /*$("input[name='noOrder']").change(function (){
-        if ($("input[name='noOrder']").val().length != 0){
-            alert($("input[name='noOrder']").val());
+    $("input[name='allselect']").click(function () {
+        if ( $("input[name='allselect']").attr("checked") ){
+            $(".selection").attr("checked","checked");
+        } else {
+            $(".selection").removeAttr("checked");
         }
-    });*/
+    });
 
 });

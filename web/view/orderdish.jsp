@@ -50,7 +50,9 @@
             <td>图片</td>
             <td>点餐率：次</td>
             <td>备注</td>
-            <td>选择</td>
+            <td>
+                选择<input type="checkbox" name="allselect"/>
+            </td>
         </tr>
 
         <c:forEach items="${requestScope.allDish}" var="d">
