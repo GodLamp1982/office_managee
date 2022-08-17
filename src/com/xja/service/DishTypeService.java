@@ -17,17 +17,18 @@ public interface DishTypeService {
 
     /**
      * 更新菜品类型信息
-     * @param dishType
+     * @param typeId
+     * @param typeName
      * @return
      */
-    int update(DishType dishType);
+    int update(String typeId,String typeName);
 
     /**
      * 删除指定类型
      * @param typeId
      * @return
      */
-    int del(int typeId);
+    int del(String typeId);
 
     /**
      * 增加类型

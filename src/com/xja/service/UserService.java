@@ -1,8 +1,11 @@
 package com.xja.service;
 
 import com.xja.bean.User;
+import com.xja.common.Page;
+import com.xja.common.ReturnValue;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author GodLamp
@@ -14,7 +17,14 @@ public interface UserService {
      * @param account
      * @return
      */
-    User findByAccount(String account);
+    String findByAccount(String account);
+
+    /**
+     * 根据账号查询用户-返回整个用户信息
+     * @param account
+     * @return
+     */
+    User findUserByAccount(String account);
 
     /**
      * 增加账户
@@ -28,13 +38,20 @@ public interface UserService {
      * @param user
      * @return
      */
-    int update(User user);
+    int update(Map<String,String> map, User user);
 
     /**
      * 返回全部普通账号--管理员无法管理管理员
      * @return
      */
     List<User> findAllUser();
+
+    /**
+     * 查询所有用户
+     * @param pageIndex
+     * @return
+     */
+    ReturnValue findAllUserByPaging(int pageIndex);
 
     /**
      * 根据userId删除账号（管理员帐号无法被删除）
@@ -45,9 +62,11 @@ public interface UserService {
 
     /**
      * 设置新密码
-     * @param userId
+     * @param account
      * @param newPwd
+     * @param userName
+     * @param tel
      * @return
      */
-    int setNewPassword(int userId, String newPwd);
+    int setNewPassword(String account,String newPwd,String userName,String tel);
 }

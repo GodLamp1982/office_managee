@@ -2,6 +2,7 @@ package com.xja.servlet;
 
 import com.xja.bean.User;
 import com.xja.common.Page;
+import com.xja.common.ReturnValue;
 import com.xja.common.StateCode;
 import com.xja.service.impl.UserServiceImpl;
 import com.xja.util.MD5Util;
@@ -13,8 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author GodLamp
@@ -79,19 +80,10 @@ public class UserServlet extends HttpServlet {
      * @param response
      */
     private void forgetPasswordSetNewPwd(HttpServletRequest request, HttpServletResponse response) {
-        String account = request.getParameter("account");
-        User corrUser = userService.findByAccount(account);
-        String newPwd = request.getParameter("pwd");
-        if (account == null || corrUser == null || newPwd == null){
-            return;
-        }
+        int judge = userService.setNewPassword(request.getParameter("account"),request.getParameter("pwd"),request.getParameter("userName"),request.getParameter("tel"));
 
         try {
-            if (
-                    corrUser.getUserName().equals(request.getParameter("userName")) &&
-                            corrUser.getTel().equals(request.getParameter("tel"))
-            ){
-                userService.setNewPassword(corrUser.getUserId(), newPwd);
+            if (judge == 1){
                 request.getRequestDispatcher("login.jsp").forward(request,response);
             } else {
                 request.getRequestDispatcher("error/updatepwderror.jsp").forward(request,response);
@@ -112,20 +104,13 @@ public class UserServlet extends HttpServlet {
      */
     private void valiAccountHasExist(HttpServletRequest request, HttpServletResponse response) {
         String account = request.getParameter("account");
-        if (account == null){
-            return;
-        }
 
-        User account1 = userService.findByAccount(account);
-        String result = "false";
-        if (account1 != null){
-            result = "true";
-        }
         try {
-            response.getWriter().write(result);
+            response.getWriter().write(userService.findByAccount(account));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -161,7 +146,7 @@ public class UserServlet extends HttpServlet {
 
         request.setAttribute(
                 "managerUpdatePersonData",
-                userService.findByAccount(account)
+                userService.findUserByAccount(account)
         );
 
         try {
@@ -179,28 +164,23 @@ public class UserServlet extends HttpServlet {
      * @param response
      */
     private void findAllUser(HttpServletRequest request, HttpServletResponse response) {
-        List<User> allUser = userService.findAllUser();
         String currentPage = request.getParameter("currentPage");
 
         int pageIndex = (currentPage == null ? 1 : Integer.parseInt(currentPage));
+
+        ReturnValue allUserByPaging = userService.findAllUserByPaging(pageIndex);
+
+        Page page = allUserByPaging.getPage();
+        request.setAttribute("allUser",allUserByPaging.getUserList());
+
         //分页
         //总页数
-        int countAll = (int) Math.ceil( (allUser.size() ) *1.0 / Page.PAGE_NUMBER);
-        request.setAttribute("allCount",countAll);
+        request.setAttribute("allCount",page.getPageCount());
         //上一页
-        request.setAttribute("preIndex",pageIndex > 1 ? (pageIndex - 1) : 1);
+        request.setAttribute("preIndex",page.getPreIndex());
         //下一页
-        request.setAttribute("nextIndex",pageIndex < countAll ? (pageIndex + 1) : countAll);
+        request.setAttribute("nextIndex",page.getNextIndex());
 
-        List<User> userList = new ArrayList<>();
-        for (int i = ( (pageIndex - 1) * Page.PAGE_NUMBER ),j=0; j < 4; j++,i++ ){
-            if (i >= allUser.size()){
-                break;
-            }
-            userList.add(allUser.get(i));
-        }
-
-        request.setAttribute("allUser",userList);
         try {
             request.getRequestDispatcher("view/usershow.jsp").forward(request,response);
         } catch (ServletException e) {
@@ -231,29 +211,17 @@ public class UserServlet extends HttpServlet {
      */
     private void updateUserData(HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getSession().getAttribute("currentUser");
-        String userId= request.getParameter("userId");
-        String power = request.getParameter("power");
-        String pwd = request.getParameter("pwd");
 
-        if (user == null || userId == null || pwd == null){
-            return;
-        }
+        Map<String,String> map = new HashMap<>();
+        map.put("power",request.getParameter("power"));
+        map.put("pwd",request.getParameter("pwd"));
+        map.put("userId",request.getParameter("userId"));
+        map.put("userName",request.getParameter("userName"));
+        map.put("account",request.getParameter("account"));
+        map.put("tel",request.getParameter("tel"));
+        map.put("address",request.getParameter("address"));
 
-        if ( !user.getPassword().equals(pwd)){
-            pwd = MD5Util.getMd5Str(pwd);
-        }
-
-        User user1 = new User(
-                Integer.parseInt(userId),
-                request.getParameter("userName"),
-                request.getParameter("account"),
-                pwd,
-                request.getParameter("tel"),
-                request.getParameter("address"),
-                Integer.parseInt(power)
-        );
-
-        userService.update(user1);
+        userService.update(map,user);
 
         try {
             if ( request.getSession().getAttribute("managerUpdateJudge") == null ){
@@ -286,8 +254,8 @@ public class UserServlet extends HttpServlet {
 
         int pow = (power == null ? 0 : Integer.parseInt(power));
 
-        User account1 = userService.findByAccount(account);
-        if (account1 != null){
+        String result = userService.findByAccount(account);
+        if ("true".equals(result)){
             //注册账号已存在，不能重复
             request.setAttribute("accountHasExist","账号已存在！");
             return;
@@ -354,7 +322,7 @@ public class UserServlet extends HttpServlet {
             return;
         }
 
-        User user = userService.findByAccount(account);
+        User user = userService.findUserByAccount(account);
 
         //清除警告信息
         request.getSession().removeAttribute("codeError");

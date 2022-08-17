@@ -17,6 +17,7 @@ public class OterTest {
         System.out.println(sql.length());
         System.out.println(sql.lastIndexOf("and"));
         System.out.println(sql.substring(0, sql.length() - 4));
+        System.out.println(Integer.parseInt("-4"));
 
     }
 }

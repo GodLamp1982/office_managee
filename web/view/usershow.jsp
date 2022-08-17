@@ -58,7 +58,8 @@
                 <td>
                     <a href="user?action=oneUserFind&account=${u.account}">修改</a>
                     /
-                    <a href="user?action=managerDelUser&userId=${u.userId}">删除</a>
+                    <a href="user?action=managerDelUser&userId=${u.userId}" id="delButton" name="${u.userId}">删除</a>
+                    <%--<a href="user?action=managerDelUser&userId=${u.userId}">删除</a>--%>
                 </td>
             </tr>
         </c:forEach>
@@ -84,6 +85,14 @@
     $(function () {
         $("tr:odd").addClass("background-color","lightgray");
     });
+
+    $("#delButton").click(function () {
+        if (confirm("您确定删除该用户吗？")){
+            var id = $("#delButton").attr("name");
+            location.href="user?action=managerDelUser&userId=" + id;
+        }
+    });
+
 </script>
 
 </html>

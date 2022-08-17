@@ -26,11 +26,18 @@ public interface DishService {
      * -1-今日特价；
      * -2-厨师推荐
      *
-     * @param remark
+     * @param remarkS
      * @return
      * @throws SQLException
      */
-    List<DishExt> findAllDishByRemark(int remark,int pageIndex);
+    List<DishExt> findAllDishByRemark(String remarkS, String currentPage);
+
+    /**
+     * 根据分类查询该分类的菜品
+     * @param remarkS
+     * @return
+     */
+    List<DishExt> seeDishInfoByType(String remarkS);
 
     /**
      * 按照菜品id查询
@@ -41,17 +48,17 @@ public interface DishService {
 
     /**
      * 修改菜品信息
-     * @param dish
+     * @param map
      * @return
      */
-    int update(Dish dish);
+    int update(Map<String,String> map);
 
     /**
      * 删除指定Id的菜品信息
-     * @param dishId
+     * @param dishIdS
      * @return
      */
-    int delDish(int dishId);
+    int delDish(String dishIdS);
 
     /**
      * 增加菜品
@@ -82,7 +89,7 @@ public interface DishService {
 
     /**
      * 根据条件查询
-     * @param condition
+     * @param map
      * @return
      */
     List<DishExt> searchDishByCondition(Map<String,String> map);

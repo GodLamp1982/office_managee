@@ -28,4 +28,12 @@ $(function () {
         location.href=path +"/dish?action=generalUserIndex";
     });
 
+    $("input[name='allselect']").click(function () {
+        if ($("input[name='allselect']").attr("checked")){
+            $(".selection").attr("checked","checked");
+        } else {
+            $(".selection").removeAttr("checked");
+        }
+    });
+
 });

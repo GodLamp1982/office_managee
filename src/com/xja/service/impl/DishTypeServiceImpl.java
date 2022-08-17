@@ -33,13 +33,21 @@ public class DishTypeServiceImpl implements DishTypeService {
 
     /**
      * 更新菜品类型信息
-     * @param dishType
+     * @param typeId
+     * @param typeName
      * @return
      */
     @Override
-    public int update(DishType dishType){
+    public int update(String typeId,String typeName){
+        if (typeId == null || typeName == null){
+            return -1;
+        }
+
         try {
-            return dishTypeDao.update(dishType);
+            return dishTypeDao.update(new DishType(
+                    Integer.parseInt(typeId),
+                    typeName
+            ));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -54,9 +62,13 @@ public class DishTypeServiceImpl implements DishTypeService {
      * @return
      */
     @Override
-    public int del(int typeId){
+    public int del(String typeId){
+        if (typeId == null || typeId == ""){
+            return -1;
+        }
+
         try {
-            return dishTypeDao.del(typeId);
+            return dishTypeDao.del(Integer.parseInt(typeId));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -72,6 +84,9 @@ public class DishTypeServiceImpl implements DishTypeService {
      */
     @Override
     public int add(String typeName){
+        if (typeName == null){
+            return -1;
+        }
         try {
             return dishTypeDao.add(typeName);
         } catch (SQLException e) {

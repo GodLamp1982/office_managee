@@ -22,23 +22,36 @@ public class DishServiceImpl implements DishService {
 
     /**
      * 按照备注（remark）查找菜品
-     * remark（方法参数的值）
-     * -4-查询所有菜品；
-     * -3-查询热点菜品
-     *
-     * 1、2、3、4、..代表按菜品类型查询
-     *
-     * remark（数据库中字段值）:
-     * 0-无 ；
-     * -1-今日特价；
-     * -2-厨师推荐
-     *
-     * @param remark
+     *      * remark（方法参数的值）
+     *      * -4-查询所有菜品；
+     *      * -3-查询热点菜品
+     *      *
+     *      * 1、2、3、4、..代表按菜品类型查询
+     *      *
+     *      * remark（数据库中字段值）:
+     *      * 0-无 ；
+     *      * -1-今日特价；
+     *      * -2-厨师推荐
+     * @param remarkS
+     * @param currentPage
      * @return
-     * @throws SQLException
      */
     @Override
-    public List<DishExt> findAllDishByRemark(int remark, int pageIndex){
+    public List<DishExt> findAllDishByRemark(String remarkS, String currentPage){
+        int remark;
+        if (remarkS == null || remarkS == ""){
+            remark = -4;
+        } else {
+            remark = Integer.parseInt(remarkS);
+        }
+
+        int pageIndex;
+        if (currentPage == null || currentPage == ""){
+            pageIndex = 1;
+        } else {
+            pageIndex = Integer.parseInt(currentPage);
+        }
+
         try {
             return dishDao.findAllDishByRemark(remark,pageIndex);
         } catch (SQLException e) {
@@ -47,6 +60,21 @@ public class DishServiceImpl implements DishService {
             DBUtil.close();
         }
         return null;
+    }
+
+    /**
+     * 根据分类查询该分类的菜品
+     * @param remarkS
+     * @return
+     */
+    @Override
+    public List<DishExt> seeDishInfoByType(String remarkS){
+        if (remarkS == null || remarkS == ""){
+            return null;
+        }
+
+        return findAllDishByRemark(remarkS,"1");
+
     }
 
     /**
@@ -68,13 +96,40 @@ public class DishServiceImpl implements DishService {
 
     /**
      * 修改菜品信息
-     * @param dish
+     * @param map
      * @return
      */
     @Override
-    public int update(Dish dish){
+    public int update(Map<String,String> map){
+        if (map.get("dishIdS") == null || map.get("dishIdS") == ""){
+            return -1;
+        }
+
+        DishExt oldDish = findByDishId(
+                Integer.parseInt(map.get("dishIdS"))
+        );
+
+        if (oldDish == null){
+            return -1;
+        }
+
+        if ("".equals(map.get("fileName"))){
+            map.put("fileName",oldDish.getDish().getPhoto());
+        }
+
         try {
-            return dishDao.update(dish);
+            return dishDao.update(new Dish(
+                    oldDish.getDish().getDishId(),
+                    map.get("dishName"),
+                    map.get("feature"),
+                    map.get("ingredients"),
+                    Integer.parseInt(map.get("price")),
+                    Integer.parseInt(map.get("typeId")),
+                    map.get("fileName"),
+                    oldDish.getDish().getClickRote(),
+                    Integer.parseInt(map.get("remark"))
+            ));
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -85,13 +140,16 @@ public class DishServiceImpl implements DishService {
 
     /**
      * 删除指定Id的菜品信息
-     * @param dishId
+     * @param dishIdS
      * @return
      */
     @Override
-    public int delDish(int dishId){
+    public int delDish(String dishIdS){
+        if (dishIdS == null || dishIdS == ""){
+            return -1;
+        }
         try {
-            return dishDao.delDish(dishId);
+            return dishDao.delDish(Integer.parseInt(dishIdS));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -150,6 +208,7 @@ public class DishServiceImpl implements DishService {
      */
     @Override
     public int countAllByTypeId(int typeId){
+
         String sql = "ac_dish ";
         if (typeId > 0){
             sql += "where typeid=" + typeId;

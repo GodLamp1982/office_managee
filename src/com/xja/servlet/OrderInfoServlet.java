@@ -4,6 +4,7 @@ import com.xja.bean.DishExt;
 import com.xja.bean.User;
 import com.xja.common.BackValue;
 import com.xja.common.Page;
+import com.xja.common.ReturnValue;
 import com.xja.service.impl.OrderInfoServiceImpl;
 import com.xja.service.impl.UserServiceImpl;
 import com.xja.util.Utils;
@@ -28,6 +29,7 @@ public class OrderInfoServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        request.removeAttribute("noOrderCarError");
 
         switch (action){
             case "addBatchOrder":
@@ -57,65 +59,18 @@ public class OrderInfoServlet extends HttpServlet {
      */
     private void findAllOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String currentPage = request.getParameter("currentPage");
-
-        int pageIndex = 0;
-        if (currentPage == null || currentPage == ""){
-            pageIndex = 1;
-        } else {
-            pageIndex = Integer.parseInt(currentPage);
-        }
-
-        //全部用户
-        List<User> allUser = userService.findAllUser();
-        //存放全部结果--所有用户的所有订单，每个用户包含用户名、全部餐品、总价格
-        List<BackValue> list = new ArrayList<>();
-        List<BackValue> valueList = new ArrayList<>();
-        BackValue backValue;
-
-        //全部用户
-        for (User user : allUser) {
-            //一个用户
-
-            //一个用户的全部订单
-            for (String orderNumber : orderInfoService.findAllOrderedByUserId(user.getUserId())) {
-                //一个订单为一个BackValue值
-                int total = 0;
-                backValue = new BackValue();
-                backValue.setOrderNumber(orderNumber);
-                backValue.setUserName(user.getUserName());
-                Map<String,Integer> map = new HashMap<>();
-                //一个订单对应的全部餐品
-                for (DishExt dishExt : orderInfoService.findAllOrderByUserIdAndOrderNumber(user.getUserId(), orderNumber,1)) {
-                    map.put(dishExt.getDish().getDishName(),dishExt.getDish().getPrice());
-                    total += dishExt.getDish().getPrice();
-                }
-                backValue.setDishMap(map);
-                backValue.setTotal(total);
-                list.add(backValue);
-            }
-
-        }
+        ReturnValue returnValue = orderInfoService.returnAllOrderInfoByPaging(currentPage);
+        Page page = returnValue.getPage();
 
         //分页
-        int allCount = (int) Math.ceil(list.size() * 1.0 / Page.PAGE_NUMBER);
-        request.setAttribute("allCount",allCount);
-        request.setAttribute("preIndex",pageIndex > 1 ? (pageIndex - 1) : 1);
-        request.setAttribute("nextIndex", pageIndex < allCount ? (pageIndex + 1) : allCount);
+        request.setAttribute("allCount",page.getPageCount());
+        request.setAttribute("preIndex",page.getPreIndex());
+        request.setAttribute("nextIndex", page.getNextIndex());
 
-        for (int i = 0,j = (pageIndex-1) * Page.PAGE_NUMBER; i < Page.PAGE_NUMBER; i++,j++){
-            if (j >= list.size()){
-                continue;
-            }
-            valueList.add(list.get(j));
-        }
-
-        request.setAttribute("allUserOrderNumberDish",valueList);
-
-        /*//页面302问题无效
-        response.setHeader("Location", request.getContextPath() + "/order?action=findAllOrder");*/
+        request.setAttribute("allUserOrderNumberDish",returnValue.getBackValueList());
 
         request.getRequestDispatcher("view/userorderingdetail.jsp").forward(request,response);
-        //return;
+
     }
 
     /**
@@ -128,17 +83,7 @@ public class OrderInfoServlet extends HttpServlet {
         String dishIds = request.getParameter("dishIds");
         String orderNumber = (String) request.getSession().getAttribute("currentOrderNumber");
 
-        if(dishIds == null || orderNumber == null){
-            return;
-        }
-
-        String[] dishs = dishIds.split(",");
-        if(dishs.length == 0){
-            return;
-        }
-
-        List<String> list = Arrays.asList(dishs);
-        orderInfoService.batchDelSelectedDishInCar(user.getUserId(),orderNumber,list);
+        orderInfoService.batchDelSelectedDishInCar(user.getUserId(),orderNumber,dishIds);
 
         try {
             request.getRequestDispatcher("order?action=orderCar").forward(request,response);
@@ -159,17 +104,7 @@ public class OrderInfoServlet extends HttpServlet {
         String dishIds = request.getParameter("dishIds");
         String orderNumber = (String) request.getSession().getAttribute("currentOrderNumber");
 
-        if(dishIds == null || orderNumber == null){
-            return;
-        }
-
-        String[] dishs = dishIds.split(",");
-        if(dishs.length == 0){
-            return;
-        }
-
-        List<String> list = Arrays.asList(dishs);
-        orderInfoService.batchUpdate(user.getUserId(),orderNumber,list);
+        orderInfoService.batchUpdate(user,orderNumber,dishIds);
         try {
             request.getRequestDispatcher("order?action=orderCar").forward(request,response);
         } catch (ServletException e) {
@@ -242,19 +177,10 @@ public class OrderInfoServlet extends HttpServlet {
             return;
         }
 
-        String[] dishs = dishIds.split(",");
-        if(dishs.length == 0){
-            return;
-        } else {
-            List<String> list = Arrays.asList(dishs);
-            //若当前没有订单号则生成一个
-            if ( orderNumber == null ){
-                orderNumber = Utils.randomNum(11);
-                request.getSession().setAttribute("currentOrderNumber",orderNumber);
-            }
+        orderNumber = orderInfoService.addByBatchNoCommit(user.getUserId(),dishIds,orderNumber);
 
-            orderInfoService.addByBatchNoCommit(user.getUserId(),list,orderNumber);
-        }
+        request.getSession().setAttribute("currentOrderNumber",orderNumber);
+
         try {
             request.getRequestDispatcher("dish?action=generalUserIndex").forward(request,response);
 

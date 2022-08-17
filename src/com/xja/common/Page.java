@@ -23,7 +23,7 @@ public class Page {
     //每页的记录数
     public static final int PAGE_NUMBER = 4;
 
-    private Page() {
+    public Page() {
     }
 
     /**
@@ -32,9 +32,12 @@ public class Page {
      * @param pageIndex 当前索引
      */
     public Page(int allData, int pageIndex) {
+        allData = (allData <= 0 ? 1 : allData);
+        pageIndex = (pageIndex <=0 ? 1 : pageIndex);
+
         this.pageIndex = pageIndex;
         this.preIndex = (pageIndex > 1 ? (pageIndex - 1) : 1);
-        this.nextIndex = (pageIndex < allData ? (pageIndex + 1) : allData);
         this.pageCount = (int)Math.ceil( allData * 1.0 / PAGE_NUMBER);
+        this.nextIndex = (pageIndex < this.pageCount ? (pageIndex + 1) : this.pageCount);
     }
 }

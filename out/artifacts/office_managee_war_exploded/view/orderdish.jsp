@@ -157,7 +157,6 @@
 <script type="text/javascript">
     $(function (){
         var re1 = "${requestScope.noOrderCarError}";
-
         if (re1.length > 1){
             alert("点餐车中没有您选中的商品");
         }

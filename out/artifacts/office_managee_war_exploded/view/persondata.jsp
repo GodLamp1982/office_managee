@@ -34,6 +34,8 @@
         </style>
     </head>
     <body>
+
+
     <form action="<%=request.getContextPath()%>/user?action=updateUserData" method="post">
         <c:if test="${sessionScope.managerUpdateJudge == null}" var="exp">
             <c:set var="u" value="${sessionScope.currentUser}" />
@@ -86,6 +88,14 @@
 </body>
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.8.3.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/persondata.js"></script>
+<script type="text/javascript" >
+    $(function () {
+        $("input[value='返回']").click(function () {
+            location.href = "<%=request.getContextPath()%>/dish?action=generalUserIndex";
+            /*history.back();*/
+        });
+
+    });
+</script>
 
 </html>
