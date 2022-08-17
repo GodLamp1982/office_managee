@@ -36,7 +36,6 @@ public class PowerFilter implements Filter {
         }
 
         if ( user.getPower() == 0){
-            System.out.println("1");//1
             //普通账号
             if(path.contains("/start") ||
                     "/orderdish/order".equals(path) ||
@@ -58,16 +57,13 @@ public class PowerFilter implements Filter {
                     path.contains("/persondata.jsp") ||
                     path.contains("/showsingledetail.jsp")
             ){
-                System.out.println("2");//2
                 filterChain.doFilter(servletRequest,servletResponse);
                 return;
             } else {
-                System.out.println("3");//3
                 response.sendRedirect(request.getContextPath() + "/start.jsp");
                 return;
             }
         } else {
-            System.out.println("4");//4
             //管理员
             if(path.contains("/start") ||
                     "/orderdish/order".equals(path) ||
@@ -92,11 +88,9 @@ public class PowerFilter implements Filter {
                     path.contains("/userorderingdetail.jsp") ||
                     path.contains("/usershow.jsp")
             ){
-                System.out.println("5");//5
                 filterChain.doFilter(servletRequest,servletResponse);
                 return;
             } else {
-                System.out.println("6");//6
                 response.sendRedirect(request.getContextPath() + "/start.jsp");
                 return;
             }

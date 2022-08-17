@@ -62,7 +62,9 @@ public class MD5Util {
         state[3] = 0x10325476L;  // 定义state为RFC1321中定义的标准幻数
         count[0] = count[1] =0L; // 初始化为0
         resultStr = "";// 初始化resultStr字符串为空
-        for(int i=0;i<16;i++) digest[i]=0;//初始化digest数组元素为0
+        for(int i=0;i<16;i++) {
+            digest[i]=0;//初始化digest数组元素为0
+        }
         return;
     }
 
@@ -118,8 +120,9 @@ public class MD5Util {
         byte[] block = new byte[64];   // 分配64个字节缓冲区
         //根据count计算index值。这里long型数据右移时使用无符号右移运算符>>>
         index = (int) (count[0] >>> 3) & 0x3F;
-        if ((count[0] += (inputLen << 3)) < (inputLen << 3))
+        if ((count[0] += (inputLen << 3)) < (inputLen << 3)) {
             count[1]++;
+        }
         count[1] += (inputLen >>> 29);  //这里int型数据右移时使用无符号右移运算符>>>
         partLen = 64 - index;   //计算partLen值
         if (inputLen >= partLen) {
@@ -130,8 +133,9 @@ public class MD5Util {
                 md5Transform(block);
             }
             index = 0;
-        } else
+        } else {
             i = 0;
+        }
         md5Memcpy(buffer, input, index, i, inputLen - i);
     }
 
@@ -152,12 +156,13 @@ public class MD5Util {
     private void md5Memcpy(byte[] output, byte[] input, int outpos, int inpos,
                            int len) {
         int i;
-        for (i = 0; i < len; i++)
+        for (i = 0; i < len; i++) {
             output[outpos + i] = input[inpos + i];
+        }
     }
 
     // MD5核心变换计算程序，由md5Update函数调用，block是分块的原始字节数组
-    private void md5Transform(byte block[]) {
+    private void md5Transform(byte[] block) {
         long a = state[0], b = state[1], c = state[2], d = state[3];
         long[] x = new long[16];
         Decode(x, block, 64);
@@ -271,11 +276,12 @@ public class MD5Util {
     // 将byte型数组按顺序合成long型数组，长度为len
     private void Decode(long[] output, byte[] input, int len) {
         int i, j;
-        for (i = 0, j = 0; j < len; i++, j += 4)
+        for (i = 0, j = 0; j < len; i++, j += 4) {
             output[i] = byteToul(input[j])
                     | (byteToul(input[j + 1]) << 8)
                     | (byteToul(input[j + 2]) << 16)
                     | (byteToul(input[j + 3]) << 24);
+        }
         return;
     }
 

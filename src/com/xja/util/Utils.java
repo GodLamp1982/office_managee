@@ -12,6 +12,10 @@ import java.util.Random;
 Utils工具类：
 将不同的功能封装为方法，就是可以直接通过调用方法使用它的功能，而无需考虑具体的功能实现细节。
 */
+/**
+ * @author GodLamp
+ * @date 2022/8/13 10:25
+ */
 public class Utils {
 
     /**
@@ -145,7 +149,7 @@ public class Utils {
      * @param target
      * @throws IOException
      */
-    public static void fileCopyNIO(String source, String target) throws IOException {
+    public static void fileCopyNio(String source, String target) throws IOException {
         try (FileInputStream in = new FileInputStream(source)) {
             try (FileOutputStream out = new FileOutputStream(target)) {
                 FileChannel inChannel = in.getChannel();

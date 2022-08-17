@@ -190,9 +190,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 backValue = new BackValue();
                 backValue.setOrderNumber(orderNumber);
                 backValue.setUserName(user.getUserName());
-                Map<String,Integer> map = new HashMap<>();
+
+                List<DishExt> dishExts = findAllOrderByUserIdAndOrderNumber(user.getUserId(), orderNumber, 1);
+                Map<String,Integer> map = new HashMap<>(dishExts.size());
                 //一个订单对应的全部餐品
-                for (DishExt dishExt : findAllOrderByUserIdAndOrderNumber(user.getUserId(), orderNumber,1)) {
+                for (DishExt dishExt : dishExts) {
                     map.put(dishExt.getDish().getDishName(),dishExt.getDish().getPrice());
                     total += dishExt.getDish().getPrice();
                 }

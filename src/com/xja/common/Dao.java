@@ -3,6 +3,7 @@ package com.xja.common;
 import com.xja.util.DBUtil;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author GodLamp
+ * @date 2022/8/13 10:25
+ */
 public class Dao {
     /**
      * 查询所有数据列表
@@ -32,7 +37,7 @@ public class Dao {
             //处理查询结果
             while(rs.next()){
                 //实例化一个T类型的对象
-                T t = clazz.newInstance();
+                T t = clazz.getConstructor().newInstance();
 
                 //获取t的所有属性
                 Field[] fields = clazz.getDeclaredFields();
@@ -56,6 +61,8 @@ public class Dao {
                         case "Date":
                             field.set(t,rs.getDate(name));
                             break;
+                        default:
+                            break;
                     }
                     field.setAccessible(false);
                 }
@@ -69,8 +76,11 @@ public class Dao {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
-        }
-        finally {
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } finally {
             DBUtil.close();
         }
         return list;

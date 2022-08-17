@@ -58,12 +58,6 @@ public class DishDaoImpl implements DishDao {
             sql += " order by m.clickrote desc";
         }
 
-        /*if (remark != -4){
-            sql += " limit ?,?;";
-            paramList.add( (pageIndex - 1) * Page.PAGE_NUMBER);
-            paramList.add(Page.PAGE_NUMBER);
-        }*/
-
         sql += " limit ?,?;";
         paramList.add( (pageIndex - 1) * Page.PAGE_NUMBER);
         paramList.add(Page.PAGE_NUMBER);
@@ -215,7 +209,8 @@ public class DishDaoImpl implements DishDao {
         String sql = "SELECT m.*,a.typename FROM ac_dish m\n" +
                 "INNER JOIN ac_dish_type a ON m.typeid=a.typeid";
 
-        if ( (condition.getTitle() != null && condition.getTitle() != "") || condition.getBegin() >0 || condition.getEnd() > 0){
+        boolean jud = (condition.getTitle() != null && condition.getTitle() != "") || condition.getBegin() >0 || condition.getEnd() > 0;
+        if ( jud){
             sql +=" WHERE";
         }
 

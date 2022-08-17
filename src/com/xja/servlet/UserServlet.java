@@ -213,7 +213,7 @@ public class UserServlet extends HttpServlet {
     private void updateUserData(HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getSession().getAttribute("currentUser");
 
-        Map<String,String> map = new HashMap<>();
+        Map<String,String> map = new HashMap<>(10);
         map.put("power",request.getParameter("power"));
         map.put("pwd",request.getParameter("pwd"));
         map.put("userId",request.getParameter("userId"));

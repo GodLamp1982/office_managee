@@ -119,7 +119,7 @@ public class DishServlet extends HttpServlet {
      * @param response
      */
     private void searchByCondition(HttpServletRequest request, HttpServletResponse response) {
-        Map<String,String> map = new HashMap<>();
+        Map<String,String> map = new HashMap<>(5);
         map.put("title",request.getParameter("title"));
         map.put("beginS",request.getParameter("begin"));
         map.put("endS",request.getParameter("end"));
@@ -266,7 +266,7 @@ public class DishServlet extends HttpServlet {
             file.saveAs(filePath);
         }
 
-        Map<String,String> map = new HashMap<>();
+        Map<String,String> map = new HashMap<>(10);
         map.put("dishIdS",request.getParameter("dishId"));
         map.put("fileName",fileName);
         map.put("dishName",su.getRequest().getParameter("dishName"));
