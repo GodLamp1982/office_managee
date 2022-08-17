@@ -22,7 +22,7 @@
     });
 
     function forwordpage() {
-        location.href="register.jsp";
+        location.href="<%=request.getContextPath()%>/login.jsp";
     }
 </script>
 

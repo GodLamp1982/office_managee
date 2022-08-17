@@ -12,7 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Condition {
+    //查询条件
+    //关键字
     private String title;
+    //最低价格
     private int begin;
+    //最高价格
     private int end;
 }

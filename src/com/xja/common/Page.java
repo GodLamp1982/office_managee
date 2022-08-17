@@ -27,7 +27,7 @@ public class Page {
     }
 
     /**
-     * 唯一对外的构造函数
+     * 构造函数
      * @param allData 总数据数
      * @param pageIndex 当前索引
      */

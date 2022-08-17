@@ -124,20 +124,18 @@ public class DishServlet extends HttpServlet {
         map.put("beginS",request.getParameter("begin"));
         map.put("endS",request.getParameter("end"));
 
+        /*boolean ju = (map.get("title") == null || map.get("title") == "") && (map.get("beginS") == null || map.get("beginS") == "") && (map.get("endS") == null || map.get("endS") == "");
+        if (ju){
+            request.setAttribute("noCondition",true);
+        }*/
+
         //前台获取当前页数索引
         String currentPage = request.getParameter("currentPage");
         int pageIndex = (currentPage == null ? 1 : Integer.parseInt(currentPage));
 
         List<DishExt> dishExtList = dishService.searchDishByCondition(map);
+        List<DishExt> dishExts = new ArrayList<>();
 
-        request.setAttribute(
-                "allDish",
-                dishExtList
-        );
-        request.setAttribute(
-                "allDishType",
-                dishTypeService.findAllType()
-        );
         //分页
         //总页数
         Page page = new Page(dishExtList.size(), pageIndex);
@@ -146,6 +144,22 @@ public class DishServlet extends HttpServlet {
         request.setAttribute("preIndex",page.getPreIndex());
         //下一页
         request.setAttribute("nextIndex",page.getNextIndex());
+
+        for (int i = ((pageIndex - 1) * Page.PAGE_NUMBER),j = 0; j < 4; i ++,j++){
+            if (i >= dishExtList.size()){
+                continue;
+            }
+            dishExts.add(dishExtList.get(i));
+        }
+
+        request.setAttribute(
+                "allDish",
+                dishExts
+        );
+        request.setAttribute(
+                "allDishType",
+                dishTypeService.findAllType()
+        );
 
         try {
             request.getRequestDispatcher("view/orderdish.jsp").forward(request,response);

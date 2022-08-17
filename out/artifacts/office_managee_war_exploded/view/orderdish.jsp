@@ -165,6 +165,21 @@
         if (re2.length > 1){
             alert("没有选中商品");
         }
+
+        <%--$("")--%>
+        <%--var re3 = "${requestScope.noCondition}";--%>
+        <%--if (re3.length > 1){--%>
+        <%--    alert("没有填写查询条件");--%>
+        <%--}--%>
+        $("form").submit(function () {
+            var result = true;
+            if ($("input[name='title']").val().length == 0 && $("input[name='begin']").val().length == 0 && $("input[name='end']").val().length == 0){
+                result = false;
+                alert("没有填写查询条件");
+            }
+            return result;
+        });
+
     });
 </script>
 

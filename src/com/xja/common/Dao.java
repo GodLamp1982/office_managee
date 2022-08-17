@@ -93,7 +93,7 @@ public class Dao {
      */
     public int countAllData(String tableName){
         String sql = "select count(1) from " + tableName;
-        Connection conn = null;
+        Connection conn;
         try {
             conn = DBUtil.getConnection();
             PreparedStatement psm = conn.prepareStatement(sql);
