@@ -197,6 +197,7 @@ public class UserServlet extends HttpServlet {
      */
     private void quitSystem(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().invalidate();
+
         try {
             response.sendRedirect("login.jsp");
         } catch (IOException e) {

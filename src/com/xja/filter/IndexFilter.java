@@ -34,23 +34,24 @@ public class IndexFilter implements Filter {
                 path.contains("/register") ||
                 path.contains("/images") ||
                 path.contains("/error") ||
-                path.contains(".css") ||
-                path.contains(".js") ||
-                path.contains("/font") ||
-                path.contains("/order")
+                path.contains("/css") ||
+                path.contains("/js") ||
+                path.contains("/font")
         ){
             filterChain.doFilter(servletRequest,servletResponse);
             return;
+        } else {
+            HttpSession session = request.getSession();
+            User currentUser = (User) session.getAttribute("currentUser");
+
+            if(currentUser == null){
+                response.sendRedirect(request.getContextPath() + "/start.jsp");
+                return;
+            }
+
+            filterChain.doFilter(request,response);
         }
 
-        HttpSession session = request.getSession();
-        User currentUser = (User) session.getAttribute("currentUser");
-        if(currentUser == null){
-            response.sendRedirect(request.getContextPath() + "/start.jsp");
-            return;
-        }
-
-        filterChain.doFilter(request,response);
     }
 
     @Override

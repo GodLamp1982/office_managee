@@ -28,32 +28,78 @@ public class PowerFilter implements Filter {
         User user = (User) session.getAttribute("currentUser");
 
         String path = request.getContextPath() + request.getServletPath();
+        System.out.println(path);
 
         if (user == null){
             filterChain.doFilter(request,response);
             return;
         }
 
-        if ( user.getPower() == 1){
-            //管理员
+        if ( user.getPower() == 0){
+            System.out.println("1");//1
+            //普通账号
             if(path.contains("/start") ||
-                    path.contains("/user") ||
-                    path.contains("/dish") ||
+                    "/orderdish/order".equals(path) ||
+                    "/orderdish/dish".equals(path) ||
+                    "/orderdish/user".equals(path) ||
+                    path.contains("/order?") ||
+                    path.contains("/dish?") ||
+                    path.contains("/user?") ||
                     path.contains("/login") ||
                     path.contains("/index") ||
                     path.contains("/forgotpwd") ||
                     path.contains("/register") ||
                     path.contains("/images") ||
                     path.contains("/error") ||
-                    path.contains(".css") ||
-                    path.contains(".js") ||
-                    path.contains("/font") ||
-                    path.contains("/order")
+                    path.contains("/css") ||
+                    path.contains("/js") ||
+                    path.contains("/ordercar.jsp") ||
+                    path.contains("/orderdish.jsp") ||
+                    path.contains("/persondata.jsp") ||
+                    path.contains("/showsingledetail.jsp")
             ){
+                System.out.println("2");//2
                 filterChain.doFilter(servletRequest,servletResponse);
                 return;
+            } else {
+                System.out.println("3");//3
+                response.sendRedirect(request.getContextPath() + "/start.jsp");
+                return;
             }
-
+        } else {
+            System.out.println("4");//4
+            //管理员
+            if(path.contains("/start") ||
+                    "/orderdish/order".equals(path) ||
+                    "/orderdish/dish".equals(path) ||
+                    "/orderdish/user".equals(path) ||
+                    path.contains("/order?") ||
+                    path.contains("/dish?") ||
+                    path.contains("/user?") ||
+                    path.contains("/login") ||
+                    path.contains("/index") ||
+                    path.contains("/forgotpwd") ||
+                    path.contains("/register") ||
+                    path.contains("/images") ||
+                    path.contains("/error") ||
+                    path.contains("/css") ||
+                    path.contains("/js") ||
+                    path.contains("/adddishtype.jsp") ||
+                    path.contains("/adddish.jsp") ||
+                    path.contains("/dishmanage.jsp") ||
+                    path.contains("/showdishtype.jsp") ||
+                    path.contains("/updatedishinfo.jsp") ||
+                    path.contains("/userorderingdetail.jsp") ||
+                    path.contains("/usershow.jsp")
+            ){
+                System.out.println("5");//5
+                filterChain.doFilter(servletRequest,servletResponse);
+                return;
+            } else {
+                System.out.println("6");//6
+                response.sendRedirect(request.getContextPath() + "/start.jsp");
+                return;
+            }
         }
 
 

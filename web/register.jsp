@@ -66,8 +66,8 @@
                     <tr>
                         <td>账号类型</td>
                         <td>
-                            <input type="radio" name="pow" value="0" id="ra01"/><label for="ra01">普通账号</label>
-                            <input type="radio" name="pow" value="1" id="ra02"/><label for="ra02">管理员账号</label>
+                            <input type="radio" name="pow" value="0" id="ra01" style="width: 20px;"/><label for="ra01">普通账号</label>
+                            <input type="radio" name="pow" value="1" id="ra02" style="width: 20px;"/><label for="ra02">管理员账号</label>
                         </td>
                     </tr>
                 </c:when>
