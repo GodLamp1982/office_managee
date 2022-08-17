@@ -9,10 +9,35 @@
 <html>
 <head>
     <title>忘记密码</title>
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 80%;
+            background-image: url('<%=request.getContextPath()%>/images/bg_05.png') ;
+            background-repeat: no-repeat ;
+            /*!* 缩放背景图 *!*/
+            background-size: cover;
+            background-position: center 0;
+        }
+        tr td:first-child{
+            width: 200px;
+            height: 50px;
+        }
+        td{
+            text-align: center;
+        }
+        input{
+            width: 300px;
+            height: 35px;
+        }
+    </style>
 </head>
 <body>
     <form action="user?action=forgetPassword" method="post">
-        <table border="1" cellpadding="0" cellspacing="0">
+        <table border="1" cellpadding="0" cellspacing="0" style="width: 600px;height: 500px;margin: 30px auto;">
             <tr>
                 <td>请输入忘记密码的账号</td>
                 <td>
@@ -38,8 +63,8 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
-                    <input type="submit" value="修改" style="margin-right: 30px;"/>
+                <td colspan="2" style="text-align: center;">
+                    <input type="submit" value="修改" style="margin: 20px auto;"/>
                     <input type="button" value="返回"/>
                 </td>
             </tr>

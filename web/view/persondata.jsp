@@ -39,9 +39,11 @@
     <form action="<%=request.getContextPath()%>/user?action=updateUserData" method="post">
         <c:if test="${sessionScope.managerUpdateJudge == null}" var="exp">
             <c:set var="u" value="${sessionScope.currentUser}" />
+            <input type="hidden" name="ju" value="true"/>
         </c:if>
         <c:if test="${!exp}">
             <c:set var="u" value="${requestScope.managerUpdatePersonData}" />
+            <input type="hidden" name="ju" value=""/>
         </c:if>
 
         <table border="1" cellspacing="0" cellpadding="0" style="width: 500px;height: 500px;margin: 50px auto;background-color: lightgrey;text-align: center;">
@@ -91,7 +93,11 @@
 <script type="text/javascript" >
     $(function () {
         $("input[value='返回']").click(function () {
-            location.href = "<%=request.getContextPath()%>/dish?action=generalUserIndex";
+            if ($("input[name='ju']").val().length > 1){
+                location.href = "<%=request.getContextPath()%>/dish?action=generalUserIndex";
+            } else {
+                location.href = "<%=request.getContextPath()%>/user?action=allUser";
+            }
         });
 
     });

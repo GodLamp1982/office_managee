@@ -11,8 +11,38 @@
 <head>
     <title>注册</title>
     <style type="text/css">
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 80%;
+            background-image: url('<%=request.getContextPath()%>/images/bg_05.png') ;
+            background-repeat: no-repeat ;
+            /*!* 缩放背景图 *!*/
+            background-size: cover;
+            background-position: center 0;
+        }
+        tr td:first-child{
+            width: 200px;
+            height: 50px;
+        }
+        td{
+            text-align: center;
+        }
+        input{
+            width: 300px;
+            height: 35px;
+        }
         span{
             color: red;
+        }
+        table{
+            margin: 20px auto;
+            width: 670px;
+        }
+        tr{
+            height: 70px;
         }
     </style>
 </head>
@@ -68,8 +98,8 @@
             </tr>
             <tr>
                 <td style="text-align: center;" colspan="2">
-                    <input type="submit" value="注册"/>&nbsp;
-                    <input type="button" value="返回">
+                    <input type="submit" value="注册" style="width: 200px;"/>&nbsp;
+                    <input type="button" value="返回" style="width: 200px;">
                 </td>
             </tr>
         </table>
