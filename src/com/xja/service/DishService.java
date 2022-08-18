@@ -3,6 +3,7 @@ package com.xja.service;
 import com.xja.bean.Dish;
 import com.xja.bean.DishExt;
 import com.xja.common.Condition;
+import com.xja.common.ReturnValue;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -92,5 +93,5 @@ public interface DishService {
      * @param map
      * @return
      */
-    List<DishExt> searchDishByCondition(Map<String,String> map);
+    ReturnValue searchDishByCondition(Map<String,String> map);
 }

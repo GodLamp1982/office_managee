@@ -1,13 +1,10 @@
 package com.xja.servlet;
 
-import com.xja.bean.DishExt;
 import com.xja.bean.User;
-import com.xja.common.BackValue;
 import com.xja.common.Page;
 import com.xja.common.ReturnValue;
 import com.xja.service.impl.OrderInfoServiceImpl;
 import com.xja.service.impl.UserServiceImpl;
-import com.xja.util.Utils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

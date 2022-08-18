@@ -4,6 +4,8 @@ import com.xja.bean.Dish;
 import com.xja.bean.DishExt;
 import com.xja.common.Condition;
 import com.xja.common.Dao;
+import com.xja.common.Page;
+import com.xja.common.ReturnValue;
 import com.xja.dao.impl.DishDaoImpl;
 import com.xja.service.DishService;
 import com.xja.util.DBUtil;
@@ -223,7 +225,11 @@ public class DishServiceImpl implements DishService {
      * @return
      */
     @Override
-    public List<DishExt> searchDishByCondition(Map<String,String> map){
+    public ReturnValue searchDishByCondition(Map<String,String> map){
+        ReturnValue returnValue = new ReturnValue();
+
+        int pageIndex = (map.get("pag") == null ? 1 : Integer.parseInt(map.get("pag")));
+
         int begin = 0;
         int end = 0;
         if (map.get("beginS") != null && map.get("beginS") != ""){
@@ -234,7 +240,11 @@ public class DishServiceImpl implements DishService {
         }
 
         try {
-            return dishDao.searchDishByCondition(new Condition(map.get("title"),begin,end));
+            List<DishExt> dishExts = dishDao.searchDishByCondition(new Condition(map.get("title"), begin, end));
+            returnValue.setDishExtList(dishExts);
+            Page page = new Page(dishExts.size(), pageIndex);
+            returnValue.setPage(page);
+            return returnValue;
 
         } catch (SQLException e) {
             e.printStackTrace();

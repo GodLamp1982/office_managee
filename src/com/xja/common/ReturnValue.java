@@ -1,5 +1,6 @@
 package com.xja.common;
 
+import com.xja.bean.DishExt;
 import com.xja.bean.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +20,5 @@ public class ReturnValue {
 
     private List<User> userList;
     private List<BackValue> backValueList;
+    private List<DishExt> dishExtList;
 }

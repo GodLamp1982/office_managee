@@ -7,6 +7,7 @@ import com.xja.bean.Dish;
 import com.xja.bean.DishExt;
 import com.xja.bean.DishType;
 import com.xja.common.Page;
+import com.xja.common.ReturnValue;
 import com.xja.service.impl.DishServiceImpl;
 import com.xja.service.impl.DishTypeServiceImpl;
 
@@ -119,37 +120,30 @@ public class DishServlet extends HttpServlet {
      * @param response
      */
     private void searchByCondition(HttpServletRequest request, HttpServletResponse response) {
+        String jud = request.getParameter("jud");
         Map<String,String> map = new HashMap<>(5);
         map.put("title",request.getParameter("title"));
         map.put("beginS",request.getParameter("begin"));
         map.put("endS",request.getParameter("end"));
+        map.put("pag",request.getParameter("currentPage"));
 
-        /*boolean ju = (map.get("title") == null || map.get("title") == "") && (map.get("beginS") == null || map.get("beginS") == "") && (map.get("endS") == null || map.get("endS") == "");
-        if (ju){
-            request.setAttribute("noCondition",true);
-        }*/
-
-        //前台获取当前页数索引
-        String currentPage = request.getParameter("currentPage");
-        int pageIndex = (currentPage == null ? 1 : Integer.parseInt(currentPage));
-
-        List<DishExt> dishExtList = dishService.searchDishByCondition(map);
+        ReturnValue returnValue = dishService.searchDishByCondition(map);
         List<DishExt> dishExts = new ArrayList<>();
 
         //分页
         //总页数
-        Page page = new Page(dishExtList.size(), pageIndex);
+        Page page =returnValue.getPage();
         request.setAttribute("allCount",page.getPageCount());
         //上一页
         request.setAttribute("preIndex",page.getPreIndex());
         //下一页
         request.setAttribute("nextIndex",page.getNextIndex());
 
-        for (int i = ((pageIndex - 1) * Page.PAGE_NUMBER),j = 0; j < 4; i ++,j++){
-            if (i >= dishExtList.size()){
+        for (int i = ((page.getPreIndex() - 1) * Page.PAGE_NUMBER),j = 0; j < 4; i ++,j++){
+            if (i >= returnValue.getDishExtList().size()){
                 continue;
             }
-            dishExts.add(dishExtList.get(i));
+            dishExts.add(returnValue.getDishExtList().get(i));
         }
 
         request.setAttribute(
@@ -162,7 +156,33 @@ public class DishServlet extends HttpServlet {
         );
 
         try {
-            request.getRequestDispatcher("view/orderdish.jsp").forward(request,response);
+            if (jud != null && jud != "" && "1".equals(jud)){
+                //跳转到菜品管理界面
+                request.setAttribute(
+                        "allDishs",
+                        dishExts
+                );
+                request.setAttribute(
+                        "allDishTypes",
+                        dishTypeService.findAllType()
+                );
+
+                request.getRequestDispatcher("view/dishmanage.jsp").forward(request,response);
+
+            } else {
+                //跳转到用户点餐界面
+                request.setAttribute(
+                        "allDish",
+                        dishExts
+                );
+                request.setAttribute(
+                        "allDishType",
+                        dishTypeService.findAllType()
+                );
+
+                request.getRequestDispatcher("view/orderdish.jsp").forward(request,response);
+
+            }
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -446,6 +466,7 @@ public class DishServlet extends HttpServlet {
         } else {
             //清除购物车为空的提醒
             request.removeAttribute("noOrderCarError");
+
             remark = Integer.parseInt(remarkS);
         }
 

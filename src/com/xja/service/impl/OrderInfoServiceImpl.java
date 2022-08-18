@@ -164,7 +164,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         ReturnValue returnValue = new ReturnValue();
 
         int pageIndex;
-        if (currentPage == null || currentPage == ""){
+        //currentPage.contains("userAccount")----该条件表示根据用户账号查询该账号的全部订单
+        boolean judge = (currentPage == null || currentPage == "" || currentPage.contains("userAccount"));
+        if (judge){
             pageIndex = 1;
         } else {
             pageIndex = Integer.parseInt(currentPage);
@@ -177,7 +179,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         List<BackValue> list = new ArrayList<>();
         List<BackValue> valueList = new ArrayList<>();
         BackValue backValue;
-        Page page = null;
+        Page page;
 
         //全部用户
         for (User user : allUser) {
@@ -203,14 +205,50 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 list.add(backValue);
             }
         }
+
         page = new Page(list.size(),pageIndex);
 
-        for (int i = 0,j = (pageIndex-1) * Page.PAGE_NUMBER; i < Page.PAGE_NUMBER; i++,j++){
-            if (j >= list.size()){
-                continue;
+        boolean judge1 = (currentPage == null || currentPage == "");
+        if ( !judge1 && currentPage.contains("userAccount")){
+            //根据用户账号查询订单信息
+            String account = currentPage.substring(11);
+            User user = null;
+            for (int i = 0; i < allUser.size(); i++){
+                if ((allUser.get(i).getAccount()).equals(account)){
+                    user = allUser.get(i);
+                    break;
+                }
             }
-            valueList.add(list.get(j));
+            //若账号为空则查询所有用户的订单信息
+            if (user == null){
+                for (int i = 0,j = (pageIndex-1) * Page.PAGE_NUMBER; i < Page.PAGE_NUMBER; i++,j++){
+                    if (j >= list.size()){
+                        continue;
+                    }
+                    valueList.add(list.get(j));
+                }
+                returnValue.setBackValueList(valueList);
+                returnValue.setPage(page);
+                return returnValue;
+            }
+
+            for (int i = 0; i < list.size(); i++){
+                if ((list.get(i).getUserName()).equals(user.getUserName())){
+                    valueList.add(list.get(i));
+                }
+            }
+            page = new Page(valueList.size(),pageIndex);
+
+        } else {
+            //查询所有信息
+            for (int i = 0,j = (pageIndex-1) * Page.PAGE_NUMBER; i < Page.PAGE_NUMBER; i++,j++){
+                if (j >= list.size()){
+                    continue;
+                }
+                valueList.add(list.get(j));
+            }
         }
+
 
         returnValue.setBackValueList(valueList);
         returnValue.setPage(page);

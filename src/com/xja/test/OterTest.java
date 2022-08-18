@@ -20,4 +20,11 @@ public class OterTest {
         System.out.println(Integer.parseInt("-4"));
 
     }
+
+    @Test
+    public void test02(){
+        String us = "userAccount45hi45556";
+        System.out.println(us.substring(11));
+    }
+
 }

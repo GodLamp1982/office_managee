@@ -33,6 +33,17 @@
     </style>
 </head>
 <body>
+
+<%--按照条件搜索--%>
+<form action="dish?action=searchByCondition&jud=1" method="post">
+    <p style="text-align: right;margin-right: 30px;margin-bottom: 10px;margin-top: 10px;">
+        <input type="text" name="title" placeholder="请输入关键字" style="width: 200px;height: 30px;font-size: 15px;text-align: center;"/>
+        <input type="number" name="begin" placeholder="请输入最低价格" style="width: 150px;height: 30px;font-size: 15px;text-align: center;"/>
+        <input type="number" name="end" placeholder="请输入最高价格" style="width: 150px;height: 30px;font-size: 15px;text-align: center;"/>
+        <input type="submit" value="搜索" style="width: 80px;height: 30px;"/>
+    </p>
+</form>
+
     <p>
         <select name="selectDishType" class="allbutton">
             <option value="-4">全部</option>
@@ -103,6 +114,15 @@
         $("input[value='按分类查询']").click(function () {
             var typeName = $("select[name='selectDishType']").val();
             location.href="dish?action=findByDishType&type=" + typeName;
+        });
+
+        $("form").submit(function () {
+            var result = true;
+            if ($("input[name='title']").val().length == 0 && $("input[name='begin']").val().length == 0 && $("input[name='end']").val().length == 0){
+                result = false;
+                alert("没有填写查询条件");
+            }
+            return result;
         });
 
     });

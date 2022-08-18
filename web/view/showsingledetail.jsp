@@ -23,7 +23,7 @@
 
         body {
             height: 100%;
-            background-image: url('../images/bg_02.png') ;
+            background-image: url('<%=request.getContextPath()%>/images/bg_02.png') ;
             background-repeat: no-repeat ;
             /*!* 缩放背景图 *!*/
             background-size: cover;
@@ -79,7 +79,7 @@
             </c:choose>
         </tr>
         <tr>
-            <td colspan="3" style="text-align: right;">
+            <td colspan="3" style="padding-left: 450px;">
                 <input type="button" value="返回" style="width: 70px"/>
             </td>
         </tr>

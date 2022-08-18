@@ -23,13 +23,22 @@
             float: left;
             margin-left: 20px;
         }
+        input{
+            width: 300px;
+            height: 30px;
+            margin: 20px auto;
+        }
     </style>
 </head>
 <body>
+    <p style="text-align: center;">
+        <input type="text" name="searchOrdering"/>
+        <input type="button" value="输入用户账号查询订单" id="sea" style="width: 150px;"/>
+    </p>
     <div style="width: 100%;" align="center">
         <c:set var="o" value="1"/>
         <c:forEach items="${requestScope.allUserOrderNumberDish}" var="a">
-            <table border="1" cellspacing="0" cellpadding="0" style="display: inline-block;margin: 20px 30px;">
+            <table border="1" cellspacing="0" cellpadding="0" style="display: inline-block;margin: 3px 30px;">
                 <tr>
                     <td>订单号</td>
                     <td>${a.orderNumber}</td>
@@ -75,6 +84,15 @@
     $(function () {
         $("input[value='返回']").click(function (){
             history.back();
+        });
+
+        $("#sea").click(function () {
+            if ($("input[name='searchOrdering']").val().length == 0){
+                alert("未输入用户账号");
+            } else {
+                var page = "userAccount" + $("input[name='searchOrdering']").val();
+                location.href="order?action=findAllOrder&currentPage=" + page;
+            }
         });
     });
 </script>

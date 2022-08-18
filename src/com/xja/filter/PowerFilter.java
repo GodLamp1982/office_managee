@@ -38,12 +38,9 @@ public class PowerFilter implements Filter {
         if ( user.getPower() == 0){
             //普通账号
             if(path.contains("/start") ||
-                    "/orderdish/order".equals(path) ||
-                    "/orderdish/dish".equals(path) ||
-                    "/orderdish/user".equals(path) ||
-                    path.contains("/order?") ||
-                    path.contains("/dish?") ||
-                    path.contains("/user?") ||
+                    path.contains("/order") ||
+                    path.contains("/dish") ||
+                    path.contains("/user") ||
                     path.contains("/login") ||
                     path.contains("/index") ||
                     path.contains("/forgotpwd") ||
@@ -60,18 +57,15 @@ public class PowerFilter implements Filter {
                 filterChain.doFilter(servletRequest,servletResponse);
                 return;
             } else {
-                response.sendRedirect(request.getContextPath() + "/start.jsp");
+                //response.sendRedirect(request.getContextPath() + "/start.jsp");
                 return;
             }
         } else {
             //管理员
             if(path.contains("/start") ||
-                    "/orderdish/order".equals(path) ||
-                    "/orderdish/dish".equals(path) ||
-                    "/orderdish/user".equals(path) ||
-                    path.contains("/order?") ||
-                    path.contains("/dish?") ||
-                    path.contains("/user?") ||
+                    path.contains("/order") ||
+                    path.contains("/dish") ||
+                    path.contains("/user") ||
                     path.contains("/login") ||
                     path.contains("/index") ||
                     path.contains("/forgotpwd") ||
@@ -91,7 +85,7 @@ public class PowerFilter implements Filter {
                 filterChain.doFilter(servletRequest,servletResponse);
                 return;
             } else {
-                response.sendRedirect(request.getContextPath() + "/start.jsp");
+                //response.sendRedirect(request.getContextPath() + "/start.jsp");
                 return;
             }
         }
