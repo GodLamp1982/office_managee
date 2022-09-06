@@ -1,3 +1,3 @@
 # 网络点餐系统
 JavaWeb小项目
-采用JSP、Servlet、MVC、JDBC、MySQL8
+环境：JSP、Servlet、JDBC、MySQL8、JavaWeb
